@@ -3,6 +3,7 @@ import 'package:diary/global/common/diary_widget.dart';
 import 'package:diary/modules/home/screens/main_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
+import 'package:get/route_manager.dart';
 
 void main() {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
@@ -19,6 +20,6 @@ class MyApp extends StatelessWidget {
     Future.delayed(Duration(seconds: 3), () {
       FlutterNativeSplash.remove();
     });
-    return MaterialApp(home: Home());
+    return GetMaterialApp(home: Home());
   }
 }
