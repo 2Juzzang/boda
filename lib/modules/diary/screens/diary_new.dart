@@ -19,21 +19,26 @@ class _DiaryNewState extends State<DiaryNew> {
         child: Column(
           children: [
             DiaryWidget(),
-            Container(
-              width: double.infinity,
-              decoration: BoxDecoration(
-                color: Color(0xffececec),
-                borderRadius: BorderRadius.circular(15),
-              ),
-              margin: EdgeInsets.all(16),
-              padding: EdgeInsets.symmetric(vertical: 24),
-              child: Column(
-                children: const [
-                  Icon(Icons.add_circle, color: Color(0xffd3d3d3), size: 32),
-                  SizedBox(height: 8),
-                  Text('이미지를 업로드해주세요',
-                      style: TextStyle(color: Color(0xff808080))),
-                ],
+            GestureDetector(
+              onTap: () {
+                print('aa');
+              },
+              child: Container(
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  color: Color(0xffececec),
+                  borderRadius: BorderRadius.circular(15),
+                ),
+                margin: EdgeInsets.all(16),
+                padding: EdgeInsets.symmetric(vertical: 24),
+                child: Column(
+                  children: const [
+                    Icon(Icons.add_circle, color: Color(0xffd3d3d3), size: 32),
+                    SizedBox(height: 8),
+                    Text('이미지를 업로드해주세요',
+                        style: TextStyle(color: Color(0xff808080))),
+                  ],
+                ),
               ),
             ),
             Container(
