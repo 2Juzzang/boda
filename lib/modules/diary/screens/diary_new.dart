@@ -1,6 +1,10 @@
 import 'package:diary/global/common/default_appbar.dart';
 import 'package:diary/global/common/diary_widget.dart';
+import 'package:diary/modules/diary/controller/create_controller.dart';
+// import 'package:dio/dio.dart' as dio;
+import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 
@@ -10,6 +14,8 @@ class DiaryNew extends StatefulWidget {
   @override
   State<DiaryNew> createState() => _DiaryNewState();
 }
+
+final contentsController = TextEditingController();
 
 class _DiaryNewState extends State<DiaryNew> {
   bool _visible = false;
@@ -22,14 +28,18 @@ class _DiaryNewState extends State<DiaryNew> {
         _image = File(image.path);
       });
     }
-    print(_image);
   }
 
+  final controller = Get.put(CreateController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: DefaultAppbar(),
       body: GestureDetector(
+        onTap: () {
+          //키보드 숨기기
+          FocusManager.instance.primaryFocus?.unfocus();
+        },
         onPanUpdate: ((details) {
           if (details.delta.dx > 0) {
             // print('왼오');
@@ -91,13 +101,30 @@ class _DiaryNewState extends State<DiaryNew> {
                     margin: EdgeInsets.all(16),
                     padding: EdgeInsets.all(16),
                     child: TextFormField(
+                      controller: contentsController,
                       decoration: InputDecoration(
                         border: InputBorder.none,
                       ),
                       maxLines: 8,
                     ),
                   ),
-                  ElevatedButton(onPressed: () {}, child: Text('작성하기'))
+                  Container(
+                    padding: EdgeInsets.symmetric(horizontal: 16),
+                    width: double.infinity,
+                    child: ElevatedButton(
+                      onPressed: () {
+                        controller.createTodayDiary(<String, dynamic>{
+                          'contents': contentsController.text,
+                          'author': '022vbnqxnk2fsn7',
+                          'image': _image!.path,
+                        });
+                      },
+                      style: ButtonStyle(
+                        backgroundColor: MaterialStatePropertyAll(Colors.green),
+                      ),
+                      child: Text('작성하기'),
+                    ),
+                  )
                 ],
               ),
             ),
