@@ -1,8 +1,6 @@
 import 'package:diary/global/common/default_appbar.dart';
 import 'package:diary/global/common/diary_widget.dart';
 import 'package:diary/modules/diary/controller/create_controller.dart';
-// import 'package:dio/dio.dart' as dio;
-import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
@@ -60,38 +58,11 @@ class _DiaryNewState extends State<DiaryNew> {
               child: Column(
                 children: [
                   DiaryWidget(),
-                  GestureDetector(
-                    onTap: () {
-                      _getImage();
-                    },
-                    child: Container(
-                        width: double.infinity,
-                        decoration: BoxDecoration(
-                          color: Color(0xffececec),
-                          borderRadius: BorderRadius.circular(15),
-                        ),
-                        margin: EdgeInsets.all(16),
-                        padding: _image == null
-                            ? EdgeInsets.symmetric(vertical: 24)
-                            : null,
-                        child: _image == null
-                            ? Column(
-                                children: const [
-                                  Icon(Icons.add_circle,
-                                      color: Color(0xffd3d3d3), size: 32),
-                                  SizedBox(height: 8),
-                                  Text('이미지를 업로드해주세요',
-                                      style:
-                                          TextStyle(color: Color(0xff808080))),
-                                ],
-                              )
-                            : AspectRatio(
-                                aspectRatio: 4 / 3,
-                                child: Image.file(
-                                  File(_image!.path),
-                                  fit: BoxFit.cover,
-                                ),
-                              )),
+                  Container(
+                    decoration: BoxDecoration(),
+                    child: Column(
+                      children: [],
+                    ),
                   ),
                   Container(
                     decoration: BoxDecoration(
@@ -100,12 +71,49 @@ class _DiaryNewState extends State<DiaryNew> {
                     ),
                     margin: EdgeInsets.all(16),
                     padding: EdgeInsets.all(16),
-                    child: TextFormField(
-                      controller: contentsController,
-                      decoration: InputDecoration(
-                        border: InputBorder.none,
-                      ),
-                      maxLines: 8,
+                    child: Column(
+                      children: [
+                        GestureDetector(
+                          onTap: () {
+                            _getImage();
+                          },
+                          child: Container(
+                              width: double.infinity,
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(15),
+                              ),
+                              margin: EdgeInsets.only(bottom: 8),
+                              padding: _image == null
+                                  ? EdgeInsets.symmetric(vertical: 24)
+                                  : null,
+                              child: _image == null
+                                  ? Column(
+                                      children: const [
+                                        Icon(Icons.add_circle,
+                                            color: Color(0xffd3d3d3), size: 32),
+                                        SizedBox(height: 8),
+                                        Text('이미지를 업로드해주세요',
+                                            style: TextStyle(
+                                                color: Color(0xff808080))),
+                                      ],
+                                    )
+                                  : AspectRatio(
+                                      aspectRatio: 4 / 3,
+                                      child: Image.file(
+                                        File(_image!.path),
+                                        fit: BoxFit.cover,
+                                      ),
+                                    )),
+                        ),
+                        TextFormField(
+                          controller: contentsController,
+                          decoration: InputDecoration(
+                            border: InputBorder.none,
+                          ),
+                          maxLines: 8,
+                        ),
+                      ],
                     ),
                   ),
                   Container(

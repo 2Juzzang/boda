@@ -1,4 +1,6 @@
+import 'package:diary/modules/home/screens/main_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class DefaultAppbar extends StatelessWidget implements PreferredSizeWidget {
   const DefaultAppbar({super.key});
@@ -11,8 +13,13 @@ class DefaultAppbar extends StatelessWidget implements PreferredSizeWidget {
         leadingWidth: 100,
         leading: Padding(
           padding: const EdgeInsets.only(left: 16.0),
-          child: Image.asset(
-            'assets/images/boda.png',
+          child: GestureDetector(
+            onTap: () {
+              Get.to(() => Home());
+            },
+            child: Image.asset(
+              'assets/images/boda.png',
+            ),
           ),
         ),
         actions: const [
