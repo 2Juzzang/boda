@@ -18,6 +18,7 @@ final contentsController = TextEditingController();
 class _DiaryNewState extends State<DiaryNew> {
   bool _visible = false;
   File? _image;
+  String? _feeling;
   final ImagePicker _picker = ImagePicker();
   Future _getImage() async {
     final XFile? image = await _picker.pickImage(source: ImageSource.gallery);
@@ -26,6 +27,13 @@ class _DiaryNewState extends State<DiaryNew> {
         _image = File(image.path);
       });
     }
+  }
+
+  _selectFeeling(v) {
+    setState(() {
+      _feeling = v;
+      _visible = false;
+    });
   }
 
   final controller = Get.put(CreateController());
@@ -58,12 +66,6 @@ class _DiaryNewState extends State<DiaryNew> {
               child: Column(
                 children: [
                   DiaryWidget(),
-                  Container(
-                    decoration: BoxDecoration(),
-                    child: Column(
-                      children: [],
-                    ),
-                  ),
                   Container(
                     decoration: BoxDecoration(
                       color: Color(0xffececec),
@@ -106,6 +108,31 @@ class _DiaryNewState extends State<DiaryNew> {
                                       ),
                                     )),
                         ),
+                        GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              _visible = true;
+                            });
+                          },
+                          child: Container(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Column(
+                              children: [
+                                Text('오늘의 감정은?'),
+                                SizedBox(height: 8),
+                                SizedBox(
+                                  child: _feeling == null
+                                      ? Icon(Icons.add_circle,
+                                          color: Color(0xffd3d3d3), size: 32)
+                                      : Image(
+                                          image: AssetImage(
+                                          'assets/images/$_feeling.png',
+                                        )),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
                         TextFormField(
                           controller: contentsController,
                           decoration: InputDecoration(
@@ -121,10 +148,23 @@ class _DiaryNewState extends State<DiaryNew> {
                     width: double.infinity,
                     child: ElevatedButton(
                       onPressed: () {
+                        if (contentsController.text.isEmpty) {
+                          Get.snackbar('', '내용을 입력해주세요',
+                              titleText: Container(),
+                              snackPosition: SnackPosition.BOTTOM);
+                          return;
+                        }
+                        if (_feeling == null) {
+                          Get.snackbar('', '오늘의 감정을 선택해주세요',
+                              titleText: Container(),
+                              snackPosition: SnackPosition.BOTTOM);
+                          return;
+                        }
                         controller.createTodayDiary(<String, dynamic>{
                           'contents': contentsController.text,
                           'author': '022vbnqxnk2fsn7',
-                          'image': _image!.path,
+                          'image': _image == null ? null : _image!.path,
+                          'feeling': _feeling
                         });
                       },
                       style: ButtonStyle(
@@ -172,11 +212,70 @@ class _DiaryNewState extends State<DiaryNew> {
                       topLeft: Radius.circular(50),
                       bottomLeft: Radius.circular(50),
                     ),
-                    boxShadow: [
+                    boxShadow: const [
                       BoxShadow(
                         color: Colors.grey,
                         offset: Offset(-0.1, 0.1),
                         blurRadius: 2,
+                      ),
+                    ],
+                  ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      GestureDetector(
+                        onTap: () {
+                          _selectFeeling('normal');
+                        },
+                        child: Image.asset(
+                          'assets/images/normal.png',
+                          width: 50,
+                        ),
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          _selectFeeling('good');
+                        },
+                        child: Image.asset(
+                          'assets/images/good.png',
+                          width: 50,
+                        ),
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          _selectFeeling('joy');
+                        },
+                        child: Image.asset(
+                          'assets/images/joy.png',
+                          width: 50,
+                        ),
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          _selectFeeling('sigh');
+                        },
+                        child: Image.asset(
+                          'assets/images/sigh.png',
+                          width: 50,
+                        ),
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          _selectFeeling('anger');
+                        },
+                        child: Image.asset(
+                          'assets/images/anger.png',
+                          width: 50,
+                        ),
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          _selectFeeling('sadness');
+                        },
+                        child: Image.asset(
+                          'assets/images/sadness.png',
+                          width: 50,
+                        ),
                       ),
                     ],
                   ),
