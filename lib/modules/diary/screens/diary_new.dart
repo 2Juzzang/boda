@@ -45,6 +45,9 @@ class _DiaryNewState extends State<DiaryNew> {
         onTap: () {
           //키보드 숨기기
           FocusManager.instance.primaryFocus?.unfocus();
+          setState(() {
+            _visible = false;
+          });
         },
         onPanUpdate: ((details) {
           if (details.delta.dx > 0) {
@@ -65,7 +68,7 @@ class _DiaryNewState extends State<DiaryNew> {
             SingleChildScrollView(
               child: Column(
                 children: [
-                  DiaryWidget(),
+                  // DiaryWidget(),
                   Container(
                     decoration: BoxDecoration(
                       color: Color(0xffececec),
@@ -164,7 +167,8 @@ class _DiaryNewState extends State<DiaryNew> {
                           'contents': contentsController.text,
                           'author': '022vbnqxnk2fsn7',
                           'image': _image == null ? null : _image!.path,
-                          'feeling': _feeling
+                          'feeling': _feeling,
+                          'parent': 'oagiy0a7jsagw7q'
                         });
                       },
                       style: ButtonStyle(

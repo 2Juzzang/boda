@@ -1,7 +1,12 @@
+import 'package:get/get.dart';
+import 'package:diary/modules/diary/screens/diary_detail.dart';
 import 'package:flutter/material.dart';
 
 class DiaryWidget extends StatefulWidget {
-  const DiaryWidget({super.key});
+  final String title;
+  final int index;
+
+  const DiaryWidget(this.title, this.index, {super.key});
 
   @override
   State<DiaryWidget> createState() => _DiaryWidgetState();
@@ -14,49 +19,54 @@ class _DiaryWidgetState extends State<DiaryWidget> {
       padding: const EdgeInsets.symmetric(vertical: 16.0),
       child: Stack(
         children: [
-          Container(
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(15),
-              boxShadow: const [
-                BoxShadow(
-                    color: Colors.grey,
-                    blurRadius: 1,
-                    spreadRadius: 1.0,
-                    offset: Offset(1, 1)),
-              ],
-            ),
-            // width: double.infinity,
-            height: 96,
-            margin: EdgeInsets.symmetric(horizontal: 16),
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(24, 16, 16, 16),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: const [
-                      Text(
-                        '프라이빗 일기장',
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      Text(
-                        '마지막 일기 : 3일 전',
-                        style: TextStyle(color: Colors.grey),
-                      ),
-                    ],
-                  ),
-                  //circleAvatar 추가하기
-                  Image.asset(
-                    'assets/images/boda.png',
-                    width: 96,
-                  ),
+          GestureDetector(
+            onTap: () {
+              Get.to(() => DiaryDetail());
+            },
+            child: Container(
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(15),
+                boxShadow: const [
+                  BoxShadow(
+                      color: Colors.grey,
+                      blurRadius: 1,
+                      spreadRadius: 1.0,
+                      offset: Offset(1, 1)),
                 ],
+              ),
+              // width: double.infinity,
+              height: 96,
+              margin: EdgeInsets.symmetric(horizontal: 16),
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(24, 16, 16, 16),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          widget.title,
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        Text(
+                          '마지막 일기 : 3일 전',
+                          style: TextStyle(color: Colors.grey),
+                        ),
+                      ],
+                    ),
+                    //circleAvatar 추가하기
+                    Image.asset(
+                      'assets/images/boda.png',
+                      width: 96,
+                    ),
+                  ],
+                ),
               ),
             ),
           ),

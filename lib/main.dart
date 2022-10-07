@@ -1,14 +1,14 @@
-import 'package:diary/global/common/default_appbar.dart';
-import 'package:diary/global/common/diary_widget.dart';
+import 'package:diary/global/controller/read_diary_list.dart';
+import 'package:intl/date_symbol_data_local.dart';
 import 'package:diary/modules/home/screens/main_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
-import 'package:get/route_manager.dart';
+import 'package:get/get.dart';
 
 void main() {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
-  runApp(MyApp());
+  initializeDateFormatting().then((_) => runApp(MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -16,7 +16,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // 로그인 정보 받아오고 리무브
+    // 로그인 정보 받아오는 로직 추가하기
     Future.delayed(Duration(seconds: 3), () {
       FlutterNativeSplash.remove();
     });
