@@ -37,8 +37,14 @@ class _DiaryNewState extends State<DiaryNew> {
   }
 
   final controller = Get.put(CreateController());
+
   @override
   Widget build(BuildContext context) {
+    var diaryListId = Get.arguments[0];
+    final date = Get.arguments[1];
+    String? dateTime =
+        "${date?.year.toString()}-${date?.month.toString().padLeft(2, '0')}-${date?.day.toString().padLeft(2, '0')}";
+
     return Scaffold(
       appBar: DefaultAppbar(),
       body: GestureDetector(
@@ -168,7 +174,8 @@ class _DiaryNewState extends State<DiaryNew> {
                           'author': '022vbnqxnk2fsn7',
                           'image': _image == null ? null : _image!.path,
                           'feeling': _feeling,
-                          'parent': 'oagiy0a7jsagw7q'
+                          'parent': diaryListId.toString(),
+                          'createdAt': dateTime
                         });
                       },
                       style: ButtonStyle(

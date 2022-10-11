@@ -23,9 +23,6 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    // print(controller.arr);
-    // Map<String, dynamic> map = jsonDecode(controller.arr);
-
     return Scaffold(
       // AppBar 와 같은 기능
       appBar: DefaultAppbar(),
@@ -37,26 +34,13 @@ class _HomeState extends State<Home> {
                 physics: const NeverScrollableScrollPhysics(),
                 itemCount: controller.arr.length,
                 itemBuilder: (context, index) {
-                  // print(controller.arr[index]);
-                  return DiaryWidget(controller.arr[index]['title'], index);
+                  return DiaryWidget(controller.arr[index]['title'], index,
+                      controller.id[index]);
                 });
           }),
-          // DiaryWidget(diaryList.title, 1),
           DiaryCreate(),
         ],
       ),
-      //  Column(
-      //   children: [
-      //     GestureDetector(
-      //         onTap: () async {
-      //           await controller.readDiaryList();
-      //           Get.to(() => DiaryDetail());
-      //         },
-      //         child: DiaryWidget()),
-      //     DiaryWidget(),
-      //
-      //   ],
-      // ),
 
       floatingActionButton: FloatingBtn(),
     );

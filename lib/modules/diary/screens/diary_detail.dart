@@ -1,7 +1,9 @@
 import 'package:diary/global/common/default_appbar.dart';
+import 'package:diary/global/controller/read_diarys.dart';
 import 'package:diary/modules/diary/screens/diary_new.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 class DiaryDetail extends StatefulWidget {
@@ -12,12 +14,24 @@ class DiaryDetail extends StatefulWidget {
 }
 
 class _DiaryDetailState extends State<DiaryDetail> {
+  final controller = Get.put(ReadDiarysController());
+  var id = Get.arguments;
+
   DateTime? _selectedDay;
   DateTime? _focusedDay;
+
   @override
   Widget build(BuildContext context) {
     print(_selectedDay);
     print(_focusedDay);
+
+    // if (id == 'oagiy0a7jsagw7q') {
+    //   return Scaffold(
+    //     appBar: DefaultAppbar(),
+    //     body: Center(child: CircularProgressIndicator()),
+    //   );
+    // }
+
     return Scaffold(
       appBar: DefaultAppbar(),
       body: TableCalendar(
@@ -42,12 +56,6 @@ class _DiaryDetailState extends State<DiaryDetail> {
           outsideDaysVisible: false,
         ),
         availableGestures: AvailableGestures.none,
-        // eventLoader: (day) {
-        //   if (day.day % 2 == 0) {
-        //     return [Container()];
-        //   }
-        //   return [];
-        // },
         rowHeight: 80,
         daysOfWeekHeight: 36,
         onDaySelected: (selectedDay, focusedDay) {
@@ -61,22 +69,38 @@ class _DiaryDetailState extends State<DiaryDetail> {
         focusedDay: _selectedDay == null ? DateTime.now() : _focusedDay!,
         calendarBuilders: CalendarBuilders(
           defaultBuilder: (context, day, focusedDay) {
-            print(day.day);
+            var isWrited = controller.diarys
+                .where((e) =>
+                    DateFormat("yyyy-MM-dd")
+                        .format(DateTime.parse(e['createdAt'])) ==
+                    DateFormat("yyyy-MM-dd").format(day))
+                .toList();
+
             return GestureDetector(
               onTap: () {
-                Get.to(() => DiaryNew());
+                if (isWrited.isEmpty) {
+                  Get.to(() => DiaryNew(), arguments: [id, day]);
+                } else {}
               },
               child: Column(
                 children: [
-                  day.day % 2 == 0
-                      ? Image.asset(
-                          'assets/images/anger.png',
-                          width: 40,
-                        )
-                      : Image.asset(
-                          'assets/images/good.png',
-                          width: 40,
-                        ),
+                  SizedBox(
+                    height: 40,
+                    child: Column(
+                      children: [
+                        if (isWrited.isEmpty)
+                          Icon(
+                            Icons.add_circle_outline,
+                            color: Colors.grey.shade300,
+                          )
+                        else
+                          ...isWrited.map(((e) {
+                            return Image.asset(
+                                'assets/images/${e['feeling']}.png');
+                          })),
+                      ],
+                    ),
+                  ),
                   SizedBox(height: 8),
                   Text(day.day.toString())
                 ],
@@ -84,29 +108,43 @@ class _DiaryDetailState extends State<DiaryDetail> {
             );
           },
           todayBuilder: (context, day, focusedDay) {
+            var isWrited = controller.diarys
+                .where((e) =>
+                    DateFormat("yyyy-MM-dd")
+                        .format(DateTime.parse(e['createdAt'])) ==
+                    DateFormat("yyyy-MM-dd").format(day))
+                .toList();
             return GestureDetector(
               onTap: () {
-                Get.to(() => DiaryNew());
+                if (isWrited.isEmpty) {
+                  Get.to(() => DiaryNew(), arguments: [id, day]);
+                } else {}
               },
               child: Column(
                 children: [
-                  day.day % 2 == 0
-                      ? Image.asset(
-                          'assets/images/anger.png',
-                          width: 40,
-                        )
-                      : Image.asset(
-                          'assets/images/good.png',
-                          width: 40,
-                        ),
+                  SizedBox(
+                    height: 40,
+                    child: Column(
+                      children: [
+                        if (isWrited.isEmpty)
+                          Icon(
+                            Icons.add_circle_outline,
+                            color: Colors.grey.shade300,
+                          )
+                        else
+                          ...isWrited.map(((e) {
+                            return Image.asset(
+                                'assets/images/${e['feeling']}.png');
+                          })),
+                      ],
+                    ),
+                  ),
                   SizedBox(height: 8),
                   Container(
-                    // padding: EdgeInsets.symmetric(horizontal: 8),
-                    width: 40,
+                    width: 32,
                     decoration: BoxDecoration(
                       color: Colors.amber.shade700,
                     ),
-
                     child: Text(
                       day.day.toString(),
                       textAlign: TextAlign.center,

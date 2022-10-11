@@ -1,3 +1,4 @@
+import 'package:diary/global/controller/read_diarys.dart';
 import 'package:get/get.dart';
 import 'package:diary/modules/diary/screens/diary_detail.dart';
 import 'package:flutter/material.dart';
@@ -5,14 +6,16 @@ import 'package:flutter/material.dart';
 class DiaryWidget extends StatefulWidget {
   final String title;
   final int index;
+  final String id;
 
-  const DiaryWidget(this.title, this.index, {super.key});
+  const DiaryWidget(this.title, this.index, this.id, {super.key});
 
   @override
   State<DiaryWidget> createState() => _DiaryWidgetState();
 }
 
 class _DiaryWidgetState extends State<DiaryWidget> {
+  final controller = Get.put(ReadDiarysController());
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -20,8 +23,9 @@ class _DiaryWidgetState extends State<DiaryWidget> {
       child: Stack(
         children: [
           GestureDetector(
-            onTap: () {
-              Get.to(() => DiaryDetail());
+            onTap: () async {
+              await controller.filter(widget.id);
+              Get.to(() => DiaryDetail(), arguments: widget.id);
             },
             child: Container(
               decoration: BoxDecoration(
