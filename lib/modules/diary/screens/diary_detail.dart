@@ -1,5 +1,6 @@
 import 'package:diary/global/common/default_appbar.dart';
 import 'package:diary/global/controller/read_diarys.dart';
+import 'package:diary/modules/diary/screens/detail_view.dart';
 import 'package:diary/modules/diary/screens/diary_new.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -22,9 +23,6 @@ class _DiaryDetailState extends State<DiaryDetail> {
 
   @override
   Widget build(BuildContext context) {
-    print(_selectedDay);
-    print(_focusedDay);
-
     // if (id == 'oagiy0a7jsagw7q') {
     //   return Scaffold(
     //     appBar: DefaultAppbar(),
@@ -69,92 +67,120 @@ class _DiaryDetailState extends State<DiaryDetail> {
         focusedDay: _selectedDay == null ? DateTime.now() : _focusedDay!,
         calendarBuilders: CalendarBuilders(
           defaultBuilder: (context, day, focusedDay) {
-            var isWrited = controller.diarys
-                .where((e) =>
-                    DateFormat("yyyy-MM-dd")
-                        .format(DateTime.parse(e['createdAt'])) ==
-                    DateFormat("yyyy-MM-dd").format(day))
-                .toList();
-
-            return GestureDetector(
-              onTap: () {
-                if (isWrited.isEmpty) {
-                  Get.to(() => DiaryNew(), arguments: [id, day]);
-                } else {}
+            return Obx(
+              () {
+                var isWrited = controller.diarys
+                    .where((e) =>
+                        DateFormat("yyyy-MM-dd")
+                            .format(DateTime.parse(e['createdAt'])) ==
+                        DateFormat("yyyy-MM-dd").format(day))
+                    .toList();
+                var detailId = isWrited;
+                return controller.isLoading
+                    ? const CircularProgressIndicator()
+                    : GestureDetector(
+                        onTap: () async {
+                          if (isWrited.isEmpty) {
+                            if (focusedDay.compareTo(day) == -1) {
+                              Get.snackbar('', '아직 작성하실 수 없습니다.',
+                                  titleText: Container(),
+                                  snackPosition: SnackPosition.BOTTOM);
+                            } else {
+                              Get.to(() => DiaryNew(), arguments: [id, day]);
+                            }
+                          } else {
+                            Get.to(() => DetailView(),
+                                arguments: detailId[0]['id']);
+                          }
+                        },
+                        child: Column(
+                          children: [
+                            SizedBox(
+                              height: 40,
+                              child: Column(
+                                children: [
+                                  if (isWrited.isEmpty)
+                                    Icon(
+                                      Icons.add_circle_outline,
+                                      color: Colors.grey.shade300,
+                                    )
+                                  else
+                                    ...isWrited.map(((e) {
+                                      return Image.asset(
+                                          'assets/images/${e['feeling']}.png');
+                                    })),
+                                ],
+                              ),
+                            ),
+                            SizedBox(height: 8),
+                            Text(day.day.toString())
+                          ],
+                        ),
+                      );
               },
-              child: Column(
-                children: [
-                  SizedBox(
-                    height: 40,
-                    child: Column(
-                      children: [
-                        if (isWrited.isEmpty)
-                          Icon(
-                            Icons.add_circle_outline,
-                            color: Colors.grey.shade300,
-                          )
-                        else
-                          ...isWrited.map(((e) {
-                            return Image.asset(
-                                'assets/images/${e['feeling']}.png');
-                          })),
-                      ],
-                    ),
-                  ),
-                  SizedBox(height: 8),
-                  Text(day.day.toString())
-                ],
-              ),
             );
           },
           todayBuilder: (context, day, focusedDay) {
-            var isWrited = controller.diarys
-                .where((e) =>
-                    DateFormat("yyyy-MM-dd")
-                        .format(DateTime.parse(e['createdAt'])) ==
-                    DateFormat("yyyy-MM-dd").format(day))
-                .toList();
-            return GestureDetector(
-              onTap: () {
-                if (isWrited.isEmpty) {
-                  Get.to(() => DiaryNew(), arguments: [id, day]);
-                } else {}
-              },
-              child: Column(
-                children: [
-                  SizedBox(
-                    height: 40,
-                    child: Column(
-                      children: [
-                        if (isWrited.isEmpty)
-                          Icon(
-                            Icons.add_circle_outline,
-                            color: Colors.grey.shade300,
-                          )
-                        else
-                          ...isWrited.map(((e) {
-                            return Image.asset(
-                                'assets/images/${e['feeling']}.png');
-                          })),
-                      ],
-                    ),
-                  ),
-                  SizedBox(height: 8),
-                  Container(
-                    width: 32,
-                    decoration: BoxDecoration(
-                      color: Colors.amber.shade700,
-                    ),
-                    child: Text(
-                      day.day.toString(),
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        color: Colors.white,
+            return Obx(
+              () {
+                var isWrited = controller.diarys
+                    .where((e) =>
+                        DateFormat("yyyy-MM-dd")
+                            .format(DateTime.parse(e['createdAt'])) ==
+                        DateFormat("yyyy-MM-dd").format(day))
+                    .toList();
+                var detailId = isWrited;
+                return GestureDetector(
+                  onTap: () async {
+                    if (isWrited.isEmpty) {
+                      if (focusedDay.compareTo(day) == -1) {
+                        Get.snackbar('', '아직 작성하실 수 없습니다.',
+                            titleText: Container(),
+                            snackPosition: SnackPosition.BOTTOM);
+                      } else {
+                        Get.to(() => DiaryNew(), arguments: [id, day]);
+                      }
+                    } else {
+                      Get.to(() => DetailView(), arguments: detailId[0]['id']);
+                    }
+                  },
+                  child: Column(
+                    children: [
+                      SizedBox(
+                        height: 40,
+                        child: Column(
+                          children: [
+                            if (isWrited.isEmpty)
+                              Icon(
+                                Icons.add_circle_outline,
+                                color: Colors.grey.shade300,
+                              )
+                            else
+                              ...isWrited.map(((e) {
+                                return Image.asset(
+                                    'assets/images/${e['feeling']}.png');
+                              })),
+                          ],
+                        ),
                       ),
-                    ),
-                  )
-                ],
-              ),
+                      SizedBox(height: 8),
+                      Container(
+                        width: 32,
+                        decoration: BoxDecoration(
+                          color: Colors.amber.shade700,
+                        ),
+                        child: Text(
+                          day.day.toString(),
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            color: Colors.white,
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                );
+              },
             );
           },
         ),

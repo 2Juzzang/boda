@@ -1,7 +1,7 @@
 import 'package:pocketbase/pocketbase.dart';
 import 'package:get/get.dart';
 
-class ReadController extends GetxController {
+class ReadListController extends GetxController {
   final client = PocketBase('http://127.0.0.1:8090');
   final RxList id = [].obs;
   final RxList arr = [].obs;

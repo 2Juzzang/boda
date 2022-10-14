@@ -1,5 +1,7 @@
 import 'package:diary/global/common/default_appbar.dart';
 import 'package:diary/global/common/diary_widget.dart';
+import 'package:diary/global/controller/read_diary_list.dart';
+import 'package:diary/global/controller/read_diarys.dart';
 import 'package:diary/modules/diary/controller/create_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -13,9 +15,8 @@ class DiaryNew extends StatefulWidget {
   State<DiaryNew> createState() => _DiaryNewState();
 }
 
-final contentsController = TextEditingController();
-
 class _DiaryNewState extends State<DiaryNew> {
+  final contentsController = TextEditingController();
   bool _visible = false;
   File? _image;
   String? _feeling;
@@ -36,12 +37,17 @@ class _DiaryNewState extends State<DiaryNew> {
     });
   }
 
-  final controller = Get.put(CreateController());
+  // @override
+  // void dispose() {
+  //   contentsController.dispose();
+  //   super.dispose();
+  // }
 
   @override
   Widget build(BuildContext context) {
-    var diaryListId = Get.arguments[0];
-    final date = Get.arguments[1];
+    String? diaryListId = Get.arguments[0];
+    DateTime? date = Get.arguments[1];
+    final controller = Get.put(CreateController(id: diaryListId!));
     String? dateTime =
         "${date?.year.toString()}-${date?.month.toString().padLeft(2, '0')}-${date?.day.toString().padLeft(2, '0')}";
 
@@ -156,7 +162,7 @@ class _DiaryNewState extends State<DiaryNew> {
                     padding: EdgeInsets.symmetric(horizontal: 16),
                     width: double.infinity,
                     child: ElevatedButton(
-                      onPressed: () {
+                      onPressed: () async {
                         if (contentsController.text.isEmpty) {
                           Get.snackbar('', '내용을 입력해주세요',
                               titleText: Container(),
@@ -176,12 +182,18 @@ class _DiaryNewState extends State<DiaryNew> {
                           'feeling': _feeling,
                           'parent': diaryListId.toString(),
                           'createdAt': dateTime
+                        }).then((_) {
+                          //back()으로 전페이지, filter 다시 함수 실행
+                          Get.find<ReadDiarysController>().filter(diaryListId);
+                          Get.back();
                         });
                       },
                       style: ButtonStyle(
                         backgroundColor: MaterialStatePropertyAll(Colors.green),
                       ),
-                      child: Text('작성하기'),
+                      child: controller.isLoading
+                          ? CircularProgressIndicator()
+                          : Text('작성하기'),
                     ),
                   )
                 ],
@@ -191,18 +203,14 @@ class _DiaryNewState extends State<DiaryNew> {
               offset: _visible ? Offset(49, 0.5) : Offset(48, 0.5),
               duration: Duration(milliseconds: 500),
               curve: Curves.easeInOut,
-              child: Positioned(
-                top: 40,
-                right: 0,
-                child: Container(
-                  width: 8,
-                  height: 96,
-                  decoration: BoxDecoration(
-                    color: Colors.grey,
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(15),
-                      bottomLeft: Radius.circular(15),
-                    ),
+              child: Container(
+                width: 8,
+                height: 96,
+                decoration: BoxDecoration(
+                  color: Colors.grey,
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(15),
+                    bottomLeft: Radius.circular(15),
                   ),
                 ),
               ),
@@ -211,85 +219,94 @@ class _DiaryNewState extends State<DiaryNew> {
               offset: _visible ? Offset(4, 0.1) : Offset(5, 0.1),
               duration: Duration(milliseconds: 500),
               curve: Curves.easeInOut,
-              child: Positioned(
-                top: 32,
-                right: 0,
-                child: Container(
-                  width: 80,
-                  height: 400,
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(50),
-                      bottomLeft: Radius.circular(50),
+              child: Container(
+                width: 80,
+                height: 400,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(50),
+                    bottomLeft: Radius.circular(50),
+                  ),
+                  boxShadow: const [
+                    BoxShadow(
+                      color: Colors.grey,
+                      offset: Offset(-0.1, 0.1),
+                      blurRadius: 2,
                     ),
-                    boxShadow: const [
-                      BoxShadow(
-                        color: Colors.grey,
-                        offset: Offset(-0.1, 0.1),
-                        blurRadius: 2,
-                      ),
-                    ],
-                  ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      GestureDetector(
-                        onTap: () {
-                          _selectFeeling('normal');
-                        },
-                        child: Image.asset(
-                          'assets/images/normal.png',
-                          width: 50,
-                        ),
-                      ),
-                      GestureDetector(
-                        onTap: () {
-                          _selectFeeling('good');
-                        },
-                        child: Image.asset(
-                          'assets/images/good.png',
-                          width: 50,
-                        ),
-                      ),
-                      GestureDetector(
-                        onTap: () {
-                          _selectFeeling('joy');
-                        },
-                        child: Image.asset(
-                          'assets/images/joy.png',
-                          width: 50,
-                        ),
-                      ),
-                      GestureDetector(
-                        onTap: () {
-                          _selectFeeling('sigh');
-                        },
-                        child: Image.asset(
-                          'assets/images/sigh.png',
-                          width: 50,
-                        ),
-                      ),
-                      GestureDetector(
-                        onTap: () {
-                          _selectFeeling('anger');
-                        },
-                        child: Image.asset(
-                          'assets/images/anger.png',
-                          width: 50,
-                        ),
-                      ),
-                      GestureDetector(
-                        onTap: () {
-                          _selectFeeling('sadness');
-                        },
-                        child: Image.asset(
-                          'assets/images/sadness.png',
-                          width: 50,
-                        ),
-                      ),
-                    ],
-                  ),
+                  ],
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children:
+                      ['normal', 'good', 'joy', 'sigh', 'anger', 'sadness']
+                          .map(
+                            (e) => GestureDetector(
+                              onTap: () {
+                                _selectFeeling(e);
+                              },
+                              child: Image.asset(
+                                'assets/images/$e.png',
+                                width: 50,
+                              ),
+                            ),
+                          )
+                          .toList(),
+                  //   GestureDetector(
+                  //     onTap: () {
+                  //       _selectFeeling('normal');
+                  //     },
+                  //     child: Image.asset(
+                  //       'assets/images/normal.png',
+                  //       width: 50,
+                  //     ),
+                  //   ),
+                  //   GestureDetector(
+                  //     onTap: () {
+                  //       _selectFeeling('good');
+                  //     },
+                  //     child: Image.asset(
+                  //       'assets/images/good.png',
+                  //       width: 50,
+                  //     ),
+                  //   ),
+                  //   GestureDetector(
+                  //     onTap: () {
+                  //       _selectFeeling('joy');
+                  //     },
+                  //     child: Image.asset(
+                  //       'assets/images/joy.png',
+                  //       width: 50,
+                  //     ),
+                  //   ),
+                  //   GestureDetector(
+                  //     onTap: () {
+                  //       _selectFeeling('sigh');
+                  //     },
+                  //     child: Image.asset(
+                  //       'assets/images/sigh.png',
+                  //       width: 50,
+                  //     ),
+                  //   ),
+                  //   GestureDetector(
+                  //     onTap: () {
+                  //       _selectFeeling('anger');
+                  //     },
+                  //     child: Image.asset(
+                  //       'assets/images/anger.png',
+                  //       width: 50,
+                  //     ),
+                  //   ),
+                  //   GestureDetector(
+                  //     onTap: () {
+                  //       _selectFeeling('sadness');
+                  //     },
+                  //     child: Image.asset(
+                  //       'assets/images/sadness.png',
+                  //       width: 50,
+                  //     ),
+                  //   ),
+                  // ],
                 ),
               ),
             ),

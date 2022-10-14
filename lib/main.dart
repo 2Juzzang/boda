@@ -1,4 +1,3 @@
-import 'package:diary/global/controller/read_diary_list.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:diary/modules/home/screens/main_screen.dart';
 import 'package:flutter/material.dart';
@@ -20,6 +19,14 @@ class MyApp extends StatelessWidget {
     Future.delayed(Duration(seconds: 3), () {
       FlutterNativeSplash.remove();
     });
-    return GetMaterialApp(home: Home());
+    return GetMaterialApp(
+      home: Home(),
+      getPages: [
+        GetPage(
+          name: '/Home',
+          page: () => Home(),
+        ),
+      ],
+    );
   }
 }
