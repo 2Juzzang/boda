@@ -32,7 +32,7 @@ class _HomeState extends State<Home> {
                 itemCount: controller.arr.length,
                 itemBuilder: (context, index) {
                   return DiaryWidget(controller.arr[index]['title'], index,
-                      controller.id[index]);
+                      controller.arr[index]['listId']);
                 });
           }),
           DiaryCreate(),

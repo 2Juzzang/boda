@@ -23,13 +23,6 @@ class _DiaryDetailState extends State<DiaryDetail> {
 
   @override
   Widget build(BuildContext context) {
-    // if (id == 'oagiy0a7jsagw7q') {
-    //   return Scaffold(
-    //     appBar: DefaultAppbar(),
-    //     body: Center(child: CircularProgressIndicator()),
-    //   );
-    // }
-
     return Scaffold(
       appBar: DefaultAppbar(),
       body: TableCalendar(
