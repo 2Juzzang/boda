@@ -16,12 +16,12 @@ class CreateController extends GetxController {
   Future<bool> createTodayDiary(Map<String, dynamic> diary) async {
     if (diary['images'] == null) {
       _isLoading(true);
-      client.records.create('diary', body: diary);
+      await client.records.create('diary', body: diary);
       await Get.find<ReadDiarysController>().readDiarys();
 
       _isLoading(false);
     } else {
-      client.records.create('diary',
+      await client.records.create('diary',
           body: diary,
           files: [await http.MultipartFile.fromPath('image', diary['image'])]);
       await Get.find<ReadDiarysController>().readDiarys();

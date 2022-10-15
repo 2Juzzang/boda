@@ -1,6 +1,7 @@
 import 'package:diary/global/controller/read_diarys.dart';
 import 'package:diary/modules/diary/controller/view_controller.dart';
 import 'package:diary/modules/home/screens/main_screen.dart';
+import 'package:diary/modules/login/screens/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -26,12 +27,17 @@ class DefaultAppbar extends StatelessWidget implements PreferredSizeWidget {
             ),
           ),
         ),
-        actions: const [
-          Padding(
-            padding: EdgeInsets.only(right: 16.0),
-            child: Icon(
-              Icons.notifications,
-              color: Color(0xffCECECE),
+        actions: [
+          GestureDetector(
+            onTap: () {
+              Get.to(() => Login());
+            },
+            child: Padding(
+              padding: EdgeInsets.only(right: 16.0),
+              child: Icon(
+                Icons.notifications,
+                color: Color(0xffCECECE),
+              ),
             ),
           ),
         ]);
