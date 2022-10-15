@@ -1,3 +1,4 @@
+import 'package:diary/global/controller/read_diarys.dart';
 import 'package:pocketbase/pocketbase.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
@@ -16,7 +17,7 @@ class CreateController extends GetxController {
     if (diary['images'] == null) {
       // _isLoading(true);
       await client.records.create('diary', body: diary);
-      await Get.find<ReadListController>().readDiaryList();
+      await Get.find<ReadDiarysController>().readDiarys();
 
       // _isLoading(false);
     } else {
