@@ -1,4 +1,3 @@
-import 'package:intl/intl.dart';
 import 'package:pocketbase/pocketbase.dart';
 import 'package:get/get.dart';
 

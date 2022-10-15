@@ -68,7 +68,6 @@ class _DiaryDetailState extends State<DiaryDetail> {
                             .format(DateTime.parse(e['createdAt'])) ==
                         DateFormat("yyyy-MM-dd").format(day))
                     .toList();
-                var detailId = isWrited;
                 return controller.isLoading
                     ? const CircularProgressIndicator()
                     : GestureDetector(
@@ -83,7 +82,7 @@ class _DiaryDetailState extends State<DiaryDetail> {
                             }
                           } else {
                             Get.to(() => DetailView(),
-                                arguments: detailId[0]['id']);
+                                arguments: isWrited[0]['id']);
                           }
                         },
                         child: Column(
@@ -122,7 +121,6 @@ class _DiaryDetailState extends State<DiaryDetail> {
                             .format(DateTime.parse(e['createdAt'])) ==
                         DateFormat("yyyy-MM-dd").format(day))
                     .toList();
-                var detailId = isWrited;
                 return GestureDetector(
                   onTap: () async {
                     if (isWrited.isEmpty) {
@@ -134,7 +132,7 @@ class _DiaryDetailState extends State<DiaryDetail> {
                         Get.to(() => DiaryNew(), arguments: [id, day]);
                       }
                     } else {
-                      Get.to(() => DetailView(), arguments: detailId[0]['id']);
+                      Get.to(() => DetailView(), arguments: isWrited[0]['id']);
                     }
                   },
                   child: Column(
