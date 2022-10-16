@@ -17,10 +17,6 @@ class ViewController extends GetxController {
     _isLoading(false);
   }
 
-  void removeData() {
-    diary.value = {};
-  }
-
   @override
   void onInit() {
     getDetailView(id);
