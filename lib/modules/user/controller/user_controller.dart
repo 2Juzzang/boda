@@ -7,6 +7,9 @@ class UserController extends GetxController {
   Api api = Api();
   RxString? token = ''.obs;
   RxMap user = RxMap<String, dynamic>({});
+  RxBool _isLoading = false.obs;
+
+  bool get isLoading => _isLoading.value;
   signUp(body) {
     api
         .userCreate(body)
@@ -15,9 +18,11 @@ class UserController extends GetxController {
   }
 
   login(email, password) async {
+    _isLoading(true);
     var res = await api.userLogin(email, password);
     user(res);
-    return Get.to(() => Home());
+    _isLoading(false);
+    Get.to(() => Home());
   }
 
   logout() async {
