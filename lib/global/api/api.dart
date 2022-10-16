@@ -19,4 +19,22 @@ class Api {
           files: [await http.MultipartFile.fromPath('image', diary['image'])]);
     }
   }
+
+  Future<void> userCreate(Map<String, dynamic> body) async {
+    await client.users.create(body: body).then((value) => print(value));
+  }
+
+  Future<Map<String, dynamic>> userLogin(String email, String password) async {
+    return await client.users.authViaEmail(email, password).then((value) {
+      return value.toJson();
+      print('로그인 성공');
+      print(value.token);
+      print(value.user?.profile);
+      print('로그인 데이터 저장');
+    });
+  }
+
+  logout() {
+    client.authStore.clear();
+  }
 }

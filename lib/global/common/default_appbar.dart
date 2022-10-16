@@ -1,7 +1,9 @@
 import 'package:diary/global/controller/read_diarys.dart';
 import 'package:diary/modules/diary/controller/view_controller.dart';
 import 'package:diary/modules/home/screens/main_screen.dart';
-import 'package:diary/modules/login/screens/login_screen.dart';
+import 'package:diary/modules/user/controller/user_controller.dart';
+import 'package:diary/modules/user/screens/login_screen.dart';
+import 'package:diary/modules/user/screens/signup_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -11,6 +13,8 @@ class DefaultAppbar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     final controller = Get.put(ReadDiarysController());
+    final userController = Get.put(UserController());
+    print(userController.user.isEmpty);
     return AppBar(
         backgroundColor: Colors.white,
         elevation: 3,
@@ -28,6 +32,30 @@ class DefaultAppbar extends StatelessWidget implements PreferredSizeWidget {
           ),
         ),
         actions: [
+          GestureDetector(
+            onTap: () {
+              userController.logout();
+            },
+            child: Padding(
+              padding: EdgeInsets.only(right: 16.0),
+              child: Icon(
+                Icons.notifications,
+                color: Color(0xffCECECE),
+              ),
+            ),
+          ),
+          GestureDetector(
+            onTap: () {
+              Get.to(() => SignUp());
+            },
+            child: Padding(
+              padding: EdgeInsets.only(right: 16.0),
+              child: Icon(
+                Icons.notifications,
+                color: Color(0xffCECECE),
+              ),
+            ),
+          ),
           GestureDetector(
             onTap: () {
               Get.to(() => Login());

@@ -1,4 +1,4 @@
-import 'package:diary/modules/login/screens/login_screen.dart';
+import 'package:diary/modules/user/screens/login_screen.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:diary/modules/home/screens/main_screen.dart';
 import 'package:flutter/material.dart';
