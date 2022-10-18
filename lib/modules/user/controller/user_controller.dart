@@ -23,9 +23,8 @@ class UserController extends GetxController {
     _isLoading(true);
     var res = await api.userLogin(email, password);
     user(res);
-
     _isLoading(false);
-    Get.to(() => Home());
+    Get.offAll(() => Home());
   }
 
   listFilter() {

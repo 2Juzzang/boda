@@ -24,7 +24,7 @@ class _DiaryWidgetState extends State<DiaryWidget> {
         children: [
           GestureDetector(
             onTap: () async {
-              controller.filter(widget.id);
+              await controller.filter(widget.id);
               Get.to(() => DiaryDetail(), arguments: widget.id);
             },
             child: Container(

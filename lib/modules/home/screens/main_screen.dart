@@ -23,7 +23,7 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    print(userController.user);
+    print(userController.user.isEmpty);
     return userController.user.isEmpty
         ? Login()
         : Scaffold(
