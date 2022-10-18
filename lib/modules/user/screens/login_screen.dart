@@ -20,7 +20,6 @@ class _LoginState extends State<Login> {
       appBar: DefaultAppbar(),
       body: Container(
         color: Colors.amber,
-        // width: MediaQuery.of(context).size.width,
         width: double.infinity,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -46,7 +45,19 @@ class _LoginState extends State<Login> {
                 style: ButtonStyle(
                   backgroundColor: MaterialStatePropertyAll(Colors.green),
                 ),
-                child: Text('로그인하기'),
+                child: Obx(() {
+                  return controller.isLoading
+                      ? SizedBox(
+                          width: 20,
+                          height: 20,
+                          child: CircularProgressIndicator(
+                            valueColor:
+                                AlwaysStoppedAnimation<Color>(Colors.white),
+                            strokeWidth: 3.0,
+                          ),
+                        )
+                      : Text('로그인하기');
+                }),
               ),
             )
           ],
