@@ -3,6 +3,7 @@ import 'package:diary/global/common/diary_widget.dart';
 import 'package:diary/global/controller/read_diary_list.dart';
 import 'package:diary/global/controller/read_diarys.dart';
 import 'package:diary/modules/diary/controller/create_controller.dart';
+import 'package:diary/modules/user/controller/user_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
@@ -37,17 +38,13 @@ class _DiaryNewState extends State<DiaryNew> {
     });
   }
 
-  // @override
-  // void dispose() {
-  //   contentsController.dispose();
-  //   super.dispose();
-  // }
-
   @override
   Widget build(BuildContext context) {
     String? diaryListId = Get.arguments[0];
     DateTime? date = Get.arguments[1];
     final controller = Get.put(CreateController(id: diaryListId!));
+    final userController = Get.put(UserController());
+    print(userController.user['user']['profile']['userId']);
     String? dateTime =
         "${date?.year.toString()}-${date?.month.toString().padLeft(2, '0')}-${date?.day.toString().padLeft(2, '0')}";
 
@@ -177,10 +174,11 @@ class _DiaryNewState extends State<DiaryNew> {
                         }
                         controller.createTodayDiary(<String, dynamic>{
                           'contents': contentsController.text,
-                          'author': '022vbnqxnk2fsn7',
+                          'author': userController.user['user']['profile']
+                              ['userId'],
                           'image': _image == null ? null : _image!.path,
                           'feeling': _feeling,
-                          'parent': diaryListId.toString(),
+                          'listId': diaryListId.toString(),
                           'createdAt': dateTime
                         }).then((_) {
                           //back()으로 전페이지, filter 다시 함수 실행

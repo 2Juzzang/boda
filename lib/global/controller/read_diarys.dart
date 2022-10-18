@@ -25,7 +25,7 @@ class ReadDiarysController extends GetxController {
 
   filter(id) {
     _isLoading(true);
-    var res = diarys.where((element) => element['parent'] == id);
+    var res = diarys.where((element) => element['listId'] == id);
     diarys(res.map((e) => e).toList());
     _isLoading(false);
   }
