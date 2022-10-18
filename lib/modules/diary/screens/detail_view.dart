@@ -27,8 +27,6 @@ class _DetailViewState extends State<DetailView> {
       body: Container(
         padding: EdgeInsets.all(16),
         child: Obx(() {
-          print(id);
-          print(diary);
           return controller.isLoading
               ? const CircularProgressIndicator()
               : Column(

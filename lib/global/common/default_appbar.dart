@@ -23,6 +23,9 @@ class DefaultAppbar extends StatelessWidget implements PreferredSizeWidget {
           padding: const EdgeInsets.only(left: 16.0),
           child: GestureDetector(
             onTap: () {
+              if (userController.user.isEmpty) {
+                return;
+              }
               controller.readDiarys();
               Get.off(() => Home());
             },
@@ -36,13 +39,15 @@ class DefaultAppbar extends StatelessWidget implements PreferredSizeWidget {
             onTap: () {
               userController.logout();
             },
-            child: Padding(
-              padding: EdgeInsets.only(right: 16.0),
-              child: Icon(
-                Icons.notifications,
-                color: Color(0xffCECECE),
-              ),
-            ),
+            child: userController.user.isEmpty
+                ? Container()
+                : Padding(
+                    padding: EdgeInsets.only(right: 16.0),
+                    child: Icon(
+                      Icons.notifications,
+                      color: Color(0xffCECECE),
+                    ),
+                  ),
           ),
           GestureDetector(
             onTap: () {
