@@ -14,7 +14,7 @@ class DefaultAppbar extends StatelessWidget implements PreferredSizeWidget {
   Widget build(BuildContext context) {
     final controller = Get.put(ReadDiarysController());
     final userController = Get.put(UserController());
-    print(userController.user.isEmpty);
+    // print(userController.user.isEmpty);
     return AppBar(
         backgroundColor: Colors.white,
         elevation: 3,

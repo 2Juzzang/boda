@@ -2,6 +2,7 @@ import 'package:diary/global/common/default_appbar.dart';
 import 'package:diary/global/controller/read_diarys.dart';
 import 'package:diary/modules/diary/screens/detail_view.dart';
 import 'package:diary/modules/diary/screens/diary_new.dart';
+import 'package:diary/modules/user/controller/user_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
@@ -16,6 +17,7 @@ class DiaryDetail extends StatefulWidget {
 
 class _DiaryDetailState extends State<DiaryDetail> {
   final controller = Get.put(ReadDiarysController());
+  final userController = Get.put(UserController());
   var id = Get.arguments;
 
   DateTime? _selectedDay;
@@ -23,6 +25,7 @@ class _DiaryDetailState extends State<DiaryDetail> {
 
   @override
   Widget build(BuildContext context) {
+    print(controller.diarys);
     return Scaffold(
       appBar: DefaultAppbar(),
       body: TableCalendar(

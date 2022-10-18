@@ -66,7 +66,7 @@ class _DiaryNewState extends State<DiaryNew> {
             });
           }
           if (details.delta.dx < 0) {
-            print('오왼');
+            // print('오왼');
             setState(() {
               _visible = true;
             });

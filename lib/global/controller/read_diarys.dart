@@ -1,3 +1,4 @@
+import 'package:diary/modules/user/controller/user_controller.dart';
 import 'package:pocketbase/pocketbase.dart';
 import 'package:get/get.dart';
 
@@ -32,7 +33,7 @@ class ReadDiarysController extends GetxController {
 
   @override
   void onInit() {
-    readDiarys();
+    ever(Get.find<UserController>().user, ((_) => readDiarys()));
     super.onInit();
   }
 }
