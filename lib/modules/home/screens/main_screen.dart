@@ -2,6 +2,7 @@ import 'package:diary/global/common/default_appbar.dart';
 import 'package:diary/global/common/diary_widget.dart';
 import 'package:diary/global/common/floating_btn.dart';
 import 'package:diary/global/controller/read_diary_list.dart';
+import 'package:diary/global/controller/read_diarys.dart';
 import 'package:diary/modules/home/widgets/diary_create.dart';
 import 'package:diary/modules/user/controller/user_controller.dart';
 import 'package:diary/modules/user/screens/login_screen.dart';
@@ -20,10 +21,10 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   final controller = Get.put(ReadListController());
   final userController = Get.put(UserController());
-
+  // final diarysController = Get.put(ReadDiarysController());
   @override
   Widget build(BuildContext context) {
-    print(userController.user.isEmpty);
+    // print(diarysController.diarys);
     return userController.user.isEmpty
         ? Login()
         : Scaffold(

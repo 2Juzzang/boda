@@ -11,6 +11,11 @@ class Api {
     return res.toList();
   }
 
+  Future<List> getDiarys() async {
+    var list = await client.records.getList('diary');
+    return list.items;
+  }
+
   Future<Map<String, dynamic>> getTodayDiary(String id) async {
     RecordModel res = await client.records.getOne('diary', id);
 

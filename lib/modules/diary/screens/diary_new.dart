@@ -182,7 +182,8 @@ class _DiaryNewState extends State<DiaryNew> {
                           'createdAt': dateTime
                         }).then((_) {
                           //back()으로 전페이지, filter 다시 함수 실행
-                          Get.find<ReadDiarysController>().filter(diaryListId);
+                          Get.find<ReadDiarysController>()
+                              .getDiarys(diaryListId);
                           Get.back();
                         });
                       },

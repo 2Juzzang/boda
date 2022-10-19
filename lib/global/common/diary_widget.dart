@@ -1,3 +1,4 @@
+import 'package:diary/global/controller/read_diary_list.dart';
 import 'package:diary/global/controller/read_diarys.dart';
 import 'package:get/get.dart';
 import 'package:diary/modules/diary/screens/diary_detail.dart';
@@ -16,6 +17,7 @@ class DiaryWidget extends StatefulWidget {
 
 class _DiaryWidgetState extends State<DiaryWidget> {
   final controller = Get.put(ReadDiarysController());
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -24,7 +26,7 @@ class _DiaryWidgetState extends State<DiaryWidget> {
         children: [
           GestureDetector(
             onTap: () async {
-              await controller.filter(widget.id);
+              await controller.getDiarys(widget.id);
               Get.to(() => DiaryDetail(), arguments: widget.id);
             },
             child: Container(
