@@ -28,7 +28,7 @@ class UserController extends GetxController {
   }
 
   listFilter() {
-    var list = Get.find<ReadListController>().arr;
+    var list = Get.find<ReadListController>().diaryList;
     if (user.isEmpty) {
       return;
     } else {
@@ -41,7 +41,6 @@ class UserController extends GetxController {
   logout() {
     user.clear();
     Get.find<ReadListController>().readList();
-    Get.find<ReadDiarysController>().diarys.clear();
     api.logout();
     Get.offAll(() => Login());
   }

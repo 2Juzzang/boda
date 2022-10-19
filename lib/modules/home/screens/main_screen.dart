@@ -36,10 +36,10 @@ class _HomeState extends State<Home> {
                   return ListView.builder(
                       shrinkWrap: true,
                       physics: const NeverScrollableScrollPhysics(),
-                      itemCount: controller.arr.length,
+                      itemCount: controller.diaryList.length,
                       itemBuilder: (context, index) {
-                        return DiaryWidget(controller.arr[index]['title'],
-                            index, controller.arr[index]['listId']);
+                        return DiaryWidget(controller.diaryList[index]['title'],
+                            index, controller.diaryList[index]['listId']);
                       });
                 }),
                 DiaryCreate(),
