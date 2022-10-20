@@ -25,6 +25,7 @@ class UserController extends GetxController {
     _isLoading(true);
     var res = await api.userLogin(email, password);
     user(res);
+
     _isLoading(false);
     Get.offAll(() => Home());
   }
@@ -41,8 +42,6 @@ class UserController extends GetxController {
   }
 
   logout() {
-    user.clear();
-    Get.find<ReadListController>().readList();
     api.logout();
     Get.offAll(() => Login());
   }
@@ -50,6 +49,7 @@ class UserController extends GetxController {
   @override
   void onInit() {
     ever(user, ((_) => listFilter()));
+
     super.onInit();
   }
 }

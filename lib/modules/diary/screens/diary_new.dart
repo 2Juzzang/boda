@@ -44,7 +44,7 @@ class _DiaryNewState extends State<DiaryNew> {
     DateTime? date = Get.arguments[1];
     final controller = Get.put(CreateController(id: diaryListId!));
     final userController = Get.put(UserController());
-    print(userController.user['user']['profile']['userId']);
+    // print(userController.user['user']['profile']['userId']);
     String? dateTime =
         "${date?.year.toString()}-${date?.month.toString().padLeft(2, '0')}-${date?.day.toString().padLeft(2, '0')}";
 
@@ -188,7 +188,8 @@ class _DiaryNewState extends State<DiaryNew> {
                         });
                       },
                       style: ButtonStyle(
-                        backgroundColor: MaterialStatePropertyAll(Colors.green),
+                        backgroundColor:
+                            MaterialStatePropertyAll(Color(0xFF00CCCC)),
                       ),
                       child: controller.isLoading
                           ? CircularProgressIndicator()

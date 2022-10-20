@@ -45,7 +45,7 @@ class _DiaryWidgetState extends State<DiaryWidget> {
               height: 96,
               margin: EdgeInsets.symmetric(horizontal: 16),
               child: Padding(
-                padding: const EdgeInsets.fromLTRB(24, 16, 16, 16),
+                padding: const EdgeInsets.fromLTRB(18, 16, 16, 16),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [

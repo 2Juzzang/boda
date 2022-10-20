@@ -1,3 +1,6 @@
+import 'package:diary/global/controller/read_diary_list.dart';
+import 'package:diary/modules/user/controller/user_controller.dart';
+import 'package:get/get.dart';
 import 'package:pocketbase/pocketbase.dart';
 import 'package:http/http.dart' as http;
 
@@ -9,6 +12,11 @@ class Api {
         .getFullList('diaryList', batch: 200, sort: '-created');
 
     return res.toList();
+  }
+
+  Future<List> DiaryList() async {
+    var res = await client.records.getList('diaryList');
+    return res.items;
   }
 
   Future<List> getDiarys() async {
@@ -43,6 +51,13 @@ class Api {
   }
 
   logout() {
+    Get.find<UserController>().user.clear();
+    Get.find<ReadListController>().readList();
     client.authStore.clear();
+  }
+
+  Future listCreate(Map<String, dynamic> data) async {
+    var res = await client.records.create('diaryList', body: data);
+    return res;
   }
 }

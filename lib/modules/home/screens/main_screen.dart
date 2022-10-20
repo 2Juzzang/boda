@@ -24,27 +24,36 @@ class _HomeState extends State<Home> {
   // final diarysController = Get.put(ReadDiarysController());
   @override
   Widget build(BuildContext context) {
-    // print(diarysController.diarys);
     return userController.user.isEmpty
         ? Login()
         : Scaffold(
             // AppBar 와 같은 기능
             appBar: DefaultAppbar(),
-            body: Column(
-              children: [
-                Obx(() {
-                  return ListView.builder(
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      itemCount: controller.diaryList.length,
-                      itemBuilder: (context, index) {
-                        return DiaryWidget(controller.diaryList[index]['title'],
-                            index, controller.diaryList[index]['listId']);
-                      });
-                }),
-                DiaryCreate(),
-              ],
-            ),
-          );
+            body: SingleChildScrollView(
+              child: Obx(
+                () {
+                  return Column(
+                    children: [
+                      SizedBox(
+                        height: 16,
+                      ),
+                      SizedBox(
+                        child: ListView.builder(
+                            shrinkWrap: true,
+                            physics: const NeverScrollableScrollPhysics(),
+                            itemCount: controller.diaryList.length,
+                            itemBuilder: (context, index) {
+                              return DiaryWidget(
+                                  controller.diaryList[index]['title'],
+                                  index,
+                                  controller.diaryList[index]['listId']);
+                            }),
+                      ),
+                      DiaryCreate(),
+                    ],
+                  );
+                },
+              ),
+            ));
   }
 }

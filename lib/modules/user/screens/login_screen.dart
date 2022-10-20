@@ -36,7 +36,7 @@ class _LoginState extends State<Login> {
               margin: EdgeInsets.all(16),
               padding: EdgeInsets.all(8),
               decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(16),
+                  borderRadius: BorderRadius.circular(8),
                   border: Border.all(color: Color(0xFFA8A8A8))),
               child: TextFormField(
                 controller: idController,
@@ -48,7 +48,7 @@ class _LoginState extends State<Login> {
               margin: EdgeInsets.all(16),
               padding: EdgeInsets.all(8),
               decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(16),
+                  borderRadius: BorderRadius.circular(8),
                   border: Border.all(color: Color(0xFFA8A8A8))),
               child: TextFormField(
                 obscureText: true,
