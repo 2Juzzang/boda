@@ -19,28 +19,59 @@ class _SignUpState extends State<SignUp> {
   Widget build(BuildContext context) {
     // print(controller.signUp());
     return Scaffold(
-      appBar: DefaultAppbar(),
+      // appBar: DefaultAppbar(),
       body: Container(
-        color: Colors.blue.shade100,
+        // color: Colors.blue.shade100,
         // width: MediaQuery.of(context).size.width,
         width: double.infinity,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Text('아이디 필드'),
-            TextFormField(
-              controller: idController,
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 40),
+              child: Image.asset(
+                'assets/images/boda.png',
+                width: 200,
+              ),
             ),
-            Text('비번 필드'),
-            TextFormField(
-              obscureText: true,
-              controller: passwordController,
+            Container(
+              margin: EdgeInsets.all(16),
+              padding: EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(16),
+                  border: Border.all(color: Color(0xFFA8A8A8))),
+              child: TextFormField(
+                controller: idController,
+                decoration: InputDecoration(
+                    hintText: 'example@boda.com', border: InputBorder.none),
+              ),
             ),
-            Text('비번 확인 필드'),
-            TextFormField(
-              obscureText: true,
-              controller: passwordConfirmController,
+            Container(
+              margin: EdgeInsets.all(16),
+              padding: EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(16),
+                  border: Border.all(color: Color(0xFFA8A8A8))),
+              child: TextFormField(
+                obscureText: true,
+                controller: passwordController,
+                decoration: InputDecoration(
+                    hintText: 'create password', border: InputBorder.none),
+              ),
+            ),
+            Container(
+              margin: EdgeInsets.all(16),
+              padding: EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(16),
+                  border: Border.all(color: Color(0xFFA8A8A8))),
+              child: TextFormField(
+                obscureText: true,
+                controller: passwordConfirmController,
+                decoration: InputDecoration(
+                    hintText: 'confirm password', border: InputBorder.none),
+              ),
             ),
             Container(
               padding: EdgeInsets.symmetric(horizontal: 16),
@@ -54,9 +85,21 @@ class _SignUpState extends State<SignUp> {
                   });
                 },
                 style: ButtonStyle(
-                  backgroundColor: MaterialStatePropertyAll(Colors.green),
+                  backgroundColor: MaterialStatePropertyAll(Color(0xFF00CCCC)),
                 ),
-                child: Text('가입하기'),
+                child: Obx(() {
+                  return controller.isLoading
+                      ? SizedBox(
+                          width: 20,
+                          height: 20,
+                          child: CircularProgressIndicator(
+                            valueColor:
+                                AlwaysStoppedAnimation<Color>(Colors.white),
+                            strokeWidth: 3.0,
+                          ),
+                        )
+                      : Text('가입하기');
+                }),
               ),
             )
           ],

@@ -1,6 +1,6 @@
 import 'package:diary/global/api/api.dart';
 import 'package:diary/global/controller/read_diary_list.dart';
-import 'package:diary/global/controller/read_diarys.dart';
+import 'package:flutter/material.dart';
 import 'package:diary/modules/home/screens/main_screen.dart';
 import 'package:diary/modules/user/screens/login_screen.dart';
 import 'package:get/get.dart';
@@ -12,11 +12,13 @@ class UserController extends GetxController {
   RxBool _isLoading = false.obs;
 
   bool get isLoading => _isLoading.value;
-  signUp(body) {
-    api
-        .userCreate(body)
-        .then((_) => print('가입완료'))
-        .then((_) => Get.to(() => Login()));
+  signUp(body) async {
+    _isLoading(true);
+    await api.userCreate(body).then((_) => Get.snackbar(
+        '', '가입완료! 로그인을 진행해주세요.',
+        titleText: Container(), snackPosition: SnackPosition.BOTTOM));
+    _isLoading(false);
+    Get.to(() => Login());
   }
 
   login(email, password) async {

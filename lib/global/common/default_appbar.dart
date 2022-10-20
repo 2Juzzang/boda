@@ -26,6 +26,7 @@ class DefaultAppbar extends StatelessWidget implements PreferredSizeWidget {
               if (userController.user.isEmpty) {
                 return;
               }
+              // controller.readDiarys();
               Get.off(() => Home());
             },
             child: Image.asset(
@@ -41,41 +42,40 @@ class DefaultAppbar extends StatelessWidget implements PreferredSizeWidget {
             child: userController.user.isEmpty
                 ? Container()
                 : Padding(
-                    padding: EdgeInsets.only(right: 16.0),
-                    child: Icon(
-                      Icons.abc,
-                      color: Colors.black,
-                    ),
-                  ),
+                    padding: EdgeInsets.all(16.0),
+                    child: Text(
+                      '로그아웃',
+                      style: TextStyle(color: Colors.grey),
+                    )),
           ),
-          userController.user.isEmpty
-              ? GestureDetector(
-                  onTap: () {
-                    Get.to(() => SignUp());
-                  },
-                  child: Padding(
-                    padding: EdgeInsets.only(right: 16.0),
-                    child: Icon(
-                      Icons.add,
-                      color: Color(0xffCECECE),
-                    ),
-                  ),
-                )
-              : SizedBox.shrink(),
-          userController.user.isEmpty
-              ? GestureDetector(
-                  onTap: () {
-                    Get.to(() => Login());
-                  },
-                  child: Padding(
-                    padding: EdgeInsets.only(right: 16.0),
-                    child: Icon(
-                      Icons.door_front_door,
-                      color: Color(0xffCECECE),
-                    ),
-                  ),
-                )
-              : SizedBox.shrink()
+          // userController.user.isEmpty
+          //     ? GestureDetector(
+          //         onTap: () {
+          //           Get.to(() => SignUp());
+          //         },
+          //         child: Padding(
+          //           padding: EdgeInsets.only(right: 16.0),
+          //           child: Icon(
+          //             Icons.add,
+          //             color: Color(0xffCECECE),
+          //           ),
+          //         ),
+          //       )
+          //     : SizedBox.shrink(),
+          // userController.user.isEmpty
+          //     ? GestureDetector(
+          //         onTap: () {
+          //           Get.to(() => Login());
+          //         },
+          //         child: Padding(
+          //           padding: EdgeInsets.only(right: 16.0),
+          //           child: Icon(
+          //             Icons.door_front_door,
+          //             color: Color(0xffCECECE),
+          //           ),
+          //         ),
+          //       )
+          //     : SizedBox.shrink()
         ]);
   }
 

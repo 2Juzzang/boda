@@ -1,5 +1,6 @@
 import 'package:diary/global/common/default_appbar.dart';
 import 'package:diary/modules/user/controller/user_controller.dart';
+import 'package:diary/modules/user/screens/signup_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -17,22 +18,44 @@ class _LoginState extends State<Login> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: DefaultAppbar(),
+      // appBar: DefaultAppbar(),
       body: Container(
-        color: Colors.amber,
         width: double.infinity,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Text('아이디 필드'),
-            TextFormField(
-              controller: idController,
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 40),
+              child: Image.asset(
+                'assets/images/boda.png',
+                width: 200,
+              ),
             ),
-            Text('비번 필드'),
-            TextFormField(
-              obscureText: true,
-              controller: passwordController,
+            Container(
+              margin: EdgeInsets.all(16),
+              padding: EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(16),
+                  border: Border.all(color: Color(0xFFA8A8A8))),
+              child: TextFormField(
+                controller: idController,
+                decoration: InputDecoration(
+                    hintText: 'example@boda.com', border: InputBorder.none),
+              ),
+            ),
+            Container(
+              margin: EdgeInsets.all(16),
+              padding: EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(16),
+                  border: Border.all(color: Color(0xFFA8A8A8))),
+              child: TextFormField(
+                obscureText: true,
+                controller: passwordController,
+                decoration: InputDecoration(
+                    hintText: 'password', border: InputBorder.none),
+              ),
             ),
             Container(
               padding: EdgeInsets.symmetric(horizontal: 16),
@@ -43,7 +66,7 @@ class _LoginState extends State<Login> {
                       idController.text, passwordController.text);
                 },
                 style: ButtonStyle(
-                  backgroundColor: MaterialStatePropertyAll(Colors.green),
+                  backgroundColor: MaterialStatePropertyAll(Color(0xFF00CCCC)),
                 ),
                 child: Obx(() {
                   return controller.isLoading
@@ -58,6 +81,22 @@ class _LoginState extends State<Login> {
                         )
                       : Text('로그인하기');
                 }),
+              ),
+            ),
+            SizedBox(
+              height: 16,
+            ),
+            Text('계정이 없으신가요?'),
+            SizedBox(
+              height: 16,
+            ),
+            GestureDetector(
+              onTap: () {
+                Get.to(() => SignUp());
+              },
+              child: Text(
+                '회원가입',
+                style: TextStyle(decoration: TextDecoration.underline),
               ),
             )
           ],
