@@ -18,7 +18,7 @@ class DiaryDetail extends StatefulWidget {
 class _DiaryDetailState extends State<DiaryDetail> {
   final controller = Get.put(ReadDiarysController());
   final userController = Get.put(UserController());
-  var id = Get.arguments;
+  var listId = Get.arguments;
 
   DateTime? _selectedDay;
   DateTime? _focusedDay;
@@ -26,7 +26,6 @@ class _DiaryDetailState extends State<DiaryDetail> {
   @override
   Widget build(BuildContext context) {
     // print(controller.diarys);
-    print(id);
     return Scaffold(
       appBar: DefaultAppbar(),
       body: TableCalendar(
@@ -82,11 +81,12 @@ class _DiaryDetailState extends State<DiaryDetail> {
                                   titleText: Container(),
                                   snackPosition: SnackPosition.BOTTOM);
                             } else {
-                              Get.to(() => DiaryNew(), arguments: [id, day]);
+                              Get.to(() => DiaryNew(),
+                                  arguments: [listId, day]);
                             }
                           } else {
                             Get.to(() => DetailView(),
-                                arguments: isWrited[0]['id']);
+                                arguments: [isWrited[0]['id'], listId]);
                           }
                         },
                         child: Column(
@@ -133,10 +133,11 @@ class _DiaryDetailState extends State<DiaryDetail> {
                             titleText: Container(),
                             snackPosition: SnackPosition.BOTTOM);
                       } else {
-                        Get.to(() => DiaryNew(), arguments: [id, day]);
+                        Get.to(() => DiaryNew(), arguments: [listId, day]);
                       }
                     } else {
-                      Get.to(() => DetailView(), arguments: isWrited[0]['id']);
+                      Get.to(() => DetailView(),
+                          arguments: [isWrited[0]['id'], listId]);
                     }
                   },
                   child: Column(

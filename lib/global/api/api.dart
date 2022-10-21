@@ -78,6 +78,7 @@ class Api {
   }
 
   Future deleteDiary(diaryId) async {
-    // var diary =
+    await client.records.delete('diary', diaryId);
+    return;
   }
 }

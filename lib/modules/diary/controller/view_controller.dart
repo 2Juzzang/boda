@@ -1,4 +1,5 @@
 import 'package:diary/global/api/api.dart';
+import 'package:diary/global/controller/read_diarys.dart';
 import 'package:get/get.dart';
 
 class ViewController extends GetxController {
@@ -15,6 +16,12 @@ class ViewController extends GetxController {
     var res = await api.getTodayDiary(id);
     diary(res);
     _isLoading(false);
+  }
+
+  deleteDiary(id, listId) async {
+    await api.deleteDiary(id);
+    await Get.find<ReadDiarysController>().getDiarys(listId);
+    Get.back();
   }
 
   @override

@@ -12,16 +12,15 @@ class DetailView extends StatefulWidget {
   State<DetailView> createState() => _DetailViewState();
 }
 
-// String? id = Get.arguments;
-// final controller = Get.put(ViewController(id: id!));
-
 class _DetailViewState extends State<DetailView> {
   @override
   Widget build(BuildContext context) {
-    final id = Get.arguments;
-    final controller = Get.put(ViewController(id: Get.arguments));
+    final id = Get.arguments[0];
+    final listId = Get.arguments[1];
+    final controller = Get.put(ViewController(id: id));
     String endPoint = 'http://127.0.0.1:8090/api/files/ejd8zuc5jpk31lx';
     final diary = controller.diary;
+    print(id);
     return Scaffold(
       appBar: DefaultAppbar(),
       body: Container(
@@ -40,6 +39,29 @@ class _DetailViewState extends State<DetailView> {
                         : Container(),
                     Image.asset('assets/images/${diary['feeling']}.png'),
                     Text(diary['contents']),
+                    GestureDetector(
+                        onTap: () {
+                          Get.dialog(AlertDialog(
+                            content: (Text('일기장은 복구되지 않습니다.\n삭제하시겠습니까?')),
+                            contentPadding: EdgeInsets.all(24),
+                            actions: [
+                              TextButton(
+                                  onPressed: (() async {
+                                    await controller.deleteDiary(id, listId);
+                                    Get.back();
+                                  }),
+                                  child: Text(
+                                    '예',
+                                    style: TextStyle(color: Colors.red),
+                                  )),
+                              TextButton(
+                                  onPressed: (() => Get.back()),
+                                  child: Text('아니오'))
+                            ],
+                          ));
+                          // listController.listDelete(widget.id);
+                        },
+                        child: Icon(Icons.delete)),
                   ],
                 );
         }),
