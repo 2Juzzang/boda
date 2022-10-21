@@ -30,8 +30,26 @@ class UserController extends GetxController {
     Get.offAll(() => Home());
   }
 
+  // listFilter() {
+  //   var list = Get.find<ReadListController>().diaryList;
+  //   if (user.isEmpty) {
+  //     return;
+  //   } else {
+  //     return list(list
+  //         .where((e) => e['author'] == user['user']['profile']['id'])
+  //         .toList());
+  //   }
+  // }
+
   logout() {
     api.logout();
     Get.offAll(() => Login());
   }
+
+  // @override
+  // void onInit() {
+  //   ever(user, ((_) => listFilter()));
+
+  //   super.onInit();
+  // }
 }

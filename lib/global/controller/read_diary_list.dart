@@ -16,7 +16,7 @@ class ReadListController extends GetxController {
     diaryList(res.map((e) {
       return {'listId': e.id, ...e.data};
     }).toList());
-    listFilter();
+    await listFilter();
     _isLoading(false);
   }
 
@@ -33,7 +33,7 @@ class ReadListController extends GetxController {
 
   @override
   void onInit() {
-    readList();
+    ever(Get.put(UserController()).user, ((_) => readList()));
     super.onInit();
   }
 }

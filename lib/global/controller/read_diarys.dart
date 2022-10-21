@@ -15,6 +15,7 @@ class ReadDiarysController extends GetxController {
     var list = await api.getDiarys();
     diarys(list.map((e) => e.toJson()).toList());
     var res = diarys.where((e) => e['listId'] == listId);
+    print(res);
     diarys(res.map((e) => e).toList());
     _isLoading(false);
   }

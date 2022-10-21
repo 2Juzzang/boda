@@ -94,6 +94,7 @@ class _DiaryCreateState extends State<DiaryCreate> {
                                               'author': user['user']['profile']
                                                   ['id']
                                             }, user['user']['profile']['id']);
+                                            listTitleController.text = '';
                                           })),
                                           style: ButtonStyle(
                                             backgroundColor:
