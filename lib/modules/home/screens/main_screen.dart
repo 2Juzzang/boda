@@ -32,29 +32,27 @@ class _HomeState extends State<Home> {
             body: SingleChildScrollView(
               child: Obx(
                 () {
-                  return controller.isLoading
-                      ? CircularProgressIndicator()
-                      : Column(
-                          children: [
-                            SizedBox(
-                              height: 16,
-                            ),
-                            SizedBox(
-                              child: ListView.builder(
-                                  shrinkWrap: true,
-                                  physics: const NeverScrollableScrollPhysics(),
-                                  itemCount: controller.diaryList.length,
-                                  itemBuilder: (context, index) {
-                                    print(controller.diaryList[index]);
-                                    return DiaryWidget(
-                                        controller.diaryList[index]['title'],
-                                        index,
-                                        controller.diaryList[index]['listId']);
-                                  }),
-                            ),
-                            DiaryCreate(),
-                          ],
-                        );
+                  return Column(
+                    children: [
+                      SizedBox(
+                        height: 16,
+                      ),
+                      SizedBox(
+                        child: ListView.builder(
+                            shrinkWrap: true,
+                            physics: const NeverScrollableScrollPhysics(),
+                            itemCount: controller.diaryList.length,
+                            itemBuilder: (context, index) {
+                              print(controller.diaryList[index]);
+                              return DiaryWidget(
+                                  controller.diaryList[index]['title'],
+                                  index,
+                                  controller.diaryList[index]['listId']);
+                            }),
+                      ),
+                      DiaryCreate(),
+                    ],
+                  );
                 },
               ),
             ));

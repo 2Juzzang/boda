@@ -106,6 +106,7 @@ class _DiaryCreateState extends State<DiaryCreate> {
                                       ElevatedButton(
                                           onPressed: ((() {
                                             controller.visible.value = false;
+                                            listTitleController.text = '';
                                           })),
                                           style: ButtonStyle(
                                             backgroundColor:
