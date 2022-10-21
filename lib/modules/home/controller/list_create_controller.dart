@@ -8,7 +8,9 @@ class ListCreateController extends GetxController {
 
   listCreate(data, id) async {
     await api.listCreate(data);
+
     await Get.find<ReadListController>().readList();
+
     visible(false);
   }
 }

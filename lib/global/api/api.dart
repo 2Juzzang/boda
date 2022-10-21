@@ -14,11 +14,6 @@ class Api {
     return res.toList();
   }
 
-  Future<List> DiaryList() async {
-    var res = await client.records.getList('diaryList');
-    return res.items;
-  }
-
   Future<List> getDiarys() async {
     var list = await client.records.getList('diary');
     return list.items;
