@@ -1,5 +1,6 @@
 import 'package:diary/global/controller/read_diary_list.dart';
 import 'package:diary/global/controller/read_diarys.dart';
+import 'package:diary/modules/home/controller/list_controller.dart';
 import 'package:get/get.dart';
 import 'package:diary/modules/diary/screens/diary_detail.dart';
 import 'package:flutter/material.dart';
@@ -17,6 +18,7 @@ class DiaryWidget extends StatefulWidget {
 
 class _DiaryWidgetState extends State<DiaryWidget> {
   final controller = Get.put(ReadDiarysController());
+  final listController = Get.put(ListController());
 
   @override
   Widget build(BuildContext context) {
@@ -52,20 +54,46 @@ class _DiaryWidgetState extends State<DiaryWidget> {
                     Column(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          widget.title,
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        Text(
-                          '마지막 일기 : 3일 전',
-                          style: TextStyle(color: Colors.grey),
-                        ),
-                      ],
+                      children: controller.isLoading
+                          ? [CircularProgressIndicator()]
+                          : [
+                              Text(
+                                widget.title,
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              Text(
+                                '마지막 일기 : 3일 전',
+                                style: TextStyle(color: Colors.grey),
+                              ),
+                            ],
                     ),
+                    Icon(Icons.edit),
+                    GestureDetector(
+                        onTap: () {
+                          Get.dialog(AlertDialog(
+                            content: (Text('일기장은 복구되지 않습니다.\n삭제하시겠습니까?')),
+                            contentPadding: EdgeInsets.all(24),
+                            actions: [
+                              TextButton(
+                                  onPressed: (() async {
+                                    Get.back();
+                                    await controller.deleteAllDiarys(widget.id);
+                                  }),
+                                  child: Text(
+                                    '예',
+                                    style: TextStyle(color: Colors.red),
+                                  )),
+                              TextButton(
+                                  onPressed: (() => Get.back()),
+                                  child: Text('아니오'))
+                            ],
+                          ));
+                          // listController.listDelete(widget.id);
+                        },
+                        child: Icon(Icons.delete)),
                     //circleAvatar 추가하기
                     Image.asset(
                       'assets/images/boda.png',

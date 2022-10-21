@@ -7,12 +7,40 @@ import 'package:http/http.dart' as http;
 class Api {
   final client = PocketBase('http://127.0.0.1:8090');
 
+//User
+  Future<void> userCreate(Map<String, dynamic> body) async {
+    await client.users.create(body: body);
+  }
+
+  Future<Map<String, dynamic>> userLogin(String email, String password) async {
+    return await client.users.authViaEmail(email, password).then((value) {
+      return value.toJson();
+    });
+  }
+
+  logout() {
+    Get.find<UserController>().user.clear();
+    Get.find<ReadListController>().readList();
+    client.authStore.clear();
+  }
+
+//List
   Future<List> readDiaryList() async {
     var res = await client.records
         .getFullList('diaryList', batch: 200, sort: '-created');
 
     return res.toList();
   }
+
+  Future listCreate(Map<String, dynamic> data) async {
+    var res = await client.records.create('diaryList', body: data);
+    return res;
+  }
+
+  Future<void> listDelete(listId) async {
+    await client.records.delete('diaryList', listId);
+  }
+//Diary
 
   Future<List> getDiarys() async {
     var list = await client.records.getList('diary');
@@ -35,24 +63,21 @@ class Api {
     }
   }
 
-  Future<void> userCreate(Map<String, dynamic> body) async {
-    await client.users.create(body: body).then((value) => print(value));
+  Future<void> deleteAllDiarys(listId) async {
+    var diarys = await getDiarys();
+    var res = diarys
+        .map((e) => e.toJson())
+        .where((e) => e['listId'] == listId)
+        .toList();
+
+    for (int i = 0; i < res.length; i++) {
+      print(res[i]['id']);
+      await client.records.delete('diary', res[i]['id']);
+    }
+    return;
   }
 
-  Future<Map<String, dynamic>> userLogin(String email, String password) async {
-    return await client.users.authViaEmail(email, password).then((value) {
-      return value.toJson();
-    });
-  }
-
-  logout() {
-    Get.find<UserController>().user.clear();
-    Get.find<ReadListController>().readList();
-    client.authStore.clear();
-  }
-
-  Future listCreate(Map<String, dynamic> data) async {
-    var res = await client.records.create('diaryList', body: data);
-    return res;
+  Future deleteDiary(diaryId) async {
+    // var diary =
   }
 }

@@ -1,7 +1,7 @@
 import 'package:diary/modules/user/controller/user_controller.dart';
 import 'package:get/get.dart';
 import 'package:diary/global/common/diary_widget.dart';
-import 'package:diary/modules/home/controller/list_create_controller.dart';
+import 'package:diary/modules/home/controller/list_controller.dart';
 import 'package:flutter/material.dart';
 
 class DiaryCreate extends StatefulWidget {
@@ -15,7 +15,7 @@ class _DiaryCreateState extends State<DiaryCreate> {
   final listTitleController = TextEditingController();
   // final userController = UserController();
   final user = Get.find<UserController>().user;
-  final controller = ListCreateController();
+  final controller = ListController();
   @override
   Widget build(BuildContext context) {
     return user.isEmpty
