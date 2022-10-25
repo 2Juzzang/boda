@@ -69,24 +69,10 @@ class _DiaryCreateState extends State<DiaryCreate> {
                                                   hintText: '일기장 제목을 입력해주세요.',
                                                   hintStyle:
                                                       TextStyle(fontSize: 14)),
-                                              // style: TextStyle(
-                                              //   fontSize: 16,
-                                              //   fontWeight: FontWeight.bold,
-                                              // ),
                                             ),
                                           ),
-                                          // Text(
-                                          //   '마지막 일기 : 3일 전',
-                                          //   style: TextStyle(color: Colors.grey),
-                                          // ),
                                         ],
                                       ),
-                                      //circleAvatar 추가하기
-                                      // Image.asset(
-                                      //   'assets/images/boda.png',
-                                      //   width: 96,
-                                      // ),
-
                                       ElevatedButton(
                                           onPressed: ((() {
                                             controller.listCreate({

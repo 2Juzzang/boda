@@ -43,7 +43,6 @@ class _HomeState extends State<Home> {
                             physics: const NeverScrollableScrollPhysics(),
                             itemCount: controller.diaryList.length,
                             itemBuilder: (context, index) {
-                              print(controller.diaryList[index]);
                               return DiaryWidget(
                                   controller.diaryList[index]['title'],
                                   index,

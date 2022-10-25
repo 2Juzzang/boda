@@ -24,10 +24,18 @@ class Api {
     client.authStore.clear();
   }
 
-//List
+  //List
   Future<List> readDiaryList() async {
     var res = await client.records
         .getFullList('diaryList', batch: 200, sort: '-created');
+
+    return res.toList();
+  }
+
+  //List filter
+  Future<List> readDiaryListByDiaryList(String diaryListId) async {
+    var res = await client.records
+        .getFullList('diary', batch: 200, filter: "feeling = '$diaryListId'");
 
     return res.toList();
   }
@@ -37,11 +45,15 @@ class Api {
     return res;
   }
 
-  Future<void> listDelete(listId) async {
+  Future<void> listDelete(String listId) async {
     await client.records.delete('diaryList', listId);
   }
-//Diary
 
+  Future<void> listUpdate(Map<String, dynamic> data, String listId) async {
+    await client.records.update('diaryList', listId, body: data);
+  }
+
+  //Diary
   Future<List> getDiarys() async {
     var list = await client.records.getList('diary');
     return list.items;
@@ -50,7 +62,7 @@ class Api {
   Future<Map<String, dynamic>> getTodayDiary(String id) async {
     RecordModel res = await client.records.getOne('diary', id);
 
-    return res.data;
+    return res.toJson();
   }
 
   Future<void> createTodayDiary(Map<String, dynamic> diary) async {
@@ -71,7 +83,6 @@ class Api {
         .toList();
 
     for (int i = 0; i < res.length; i++) {
-      print(res[i]['id']);
       await client.records.delete('diary', res[i]['id']);
     }
     return;

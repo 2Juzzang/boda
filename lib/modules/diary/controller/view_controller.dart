@@ -7,6 +7,7 @@ class ViewController extends GetxController {
   ViewController({required this.id});
   Api api = Api();
   RxMap diary = RxMap<String, dynamic>({});
+  RxBool editMode = false.obs;
   final RxBool _isLoading = false.obs;
 
   bool get isLoading => _isLoading.value;

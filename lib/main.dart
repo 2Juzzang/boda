@@ -15,7 +15,6 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // 로그인 정보 받아오는 로직 추가하기
     Future.delayed(Duration(seconds: 3), () {
       FlutterNativeSplash.remove();
     });

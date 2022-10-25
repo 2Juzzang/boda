@@ -1,5 +1,7 @@
 import 'package:diary/global/api/api.dart';
+import 'package:diary/global/controller/read_diarys.dart';
 import 'package:diary/modules/user/controller/user_controller.dart';
+import 'package:get/get_connect/http/src/utils/utils.dart';
 import 'package:pocketbase/pocketbase.dart';
 import 'package:get/get.dart';
 
@@ -8,7 +10,9 @@ class ReadListController extends GetxController {
   final client = PocketBase('http://127.0.0.1:8090');
   final RxList diaryList = [].obs;
   final RxBool _isLoading = false.obs;
+  final RxBool _edit = false.obs;
   bool get isLoading => _isLoading.value;
+  bool get edit => _edit.value;
 
   readList() async {
     _isLoading(true);
