@@ -16,6 +16,7 @@ class DiaryEdit extends StatefulWidget {
 }
 
 class _DiaryEditState extends State<DiaryEdit> {
+  late TextEditingController contentsController;
   bool _visible = false;
   File? _image;
   String? _feeling;
@@ -37,16 +38,23 @@ class _DiaryEditState extends State<DiaryEdit> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    contentsController = TextEditingController(text: widget.data['contents']);
+  }
+
+  @override
   Widget build(BuildContext context) {
     String endPoint = 'http://127.0.0.1:8090/api/files/ejd8zuc5jpk31lx';
-    final data = widget.data;
-    final controller = Get.put(CreateController(listId: data['listId']));
-    final userController = Get.put(UserController());
-    final viewController = Get.put(ViewController(id: data['diaryId']));
-    final contentsController = TextEditingController();
 
-    print(data['image']);
-    print(contentsController.text);
+    final data = widget.data;
+    final viewController = Get.put(ViewController(id: data['diaryId']));
+    final controller = Get.put(CreateController());
+    final userController = Get.put(UserController());
+    // contentsController.text = data['contents'];
+
+    print(data['diaryId']);
+    print(_image);
     return Scaffold(
       body: GestureDetector(
         onTap: () {
@@ -90,40 +98,26 @@ class _DiaryEditState extends State<DiaryEdit> {
                             _getImage();
                           },
                           child: Container(
-                            width: double.infinity,
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(15),
-                            ),
-                            margin: EdgeInsets.only(bottom: 8),
-                            padding: data['image'] != ''
-                                ? EdgeInsets.symmetric(vertical: 24)
-                                : null,
-                            child:
-                                // data['image'] != ''
-                                //     ? Image.network(
-                                //         '$endPoint/${data['id']}/${data['image']}')
-                                //     :
-                                Container(),
-                            // _image == null
-                            //       ? Column(
-                            //           children: const [
-                            //             Icon(Icons.add_circle,
-                            //                 color: Color(0xffd3d3d3), size: 32),
-                            //             SizedBox(height: 8),
-                            //             Text('이미지를 업로드해주세요',
-                            //                 style: TextStyle(
-                            //                     color: Color(0xff808080))),
-                            //           ],
-                            //         )
-                            //       : AspectRatio(
-                            //           aspectRatio: 4 / 3,
-                            //           child: Image.file(
-                            //             File(_image!.path),
-                            //             fit: BoxFit.cover,
-                            //           ),
-                            //         )),
-                          ),
+                              width: double.infinity,
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(15),
+                              ),
+                              margin: EdgeInsets.only(bottom: 8),
+                              child: _image != null
+                                  ? AspectRatio(
+                                      aspectRatio: 4 / 3,
+                                      child: Image.file(
+                                        File(_image!.path),
+                                        fit: BoxFit.cover,
+                                      ),
+                                    )
+                                  : AspectRatio(
+                                      aspectRatio: 4 / 3,
+                                      child: Image.network(
+                                        '$endPoint/${data['diaryId']}/${data['image']}',
+                                        fit: BoxFit.cover,
+                                      ))),
                         ),
                         GestureDetector(
                           onTap: () {
@@ -177,17 +171,17 @@ class _DiaryEditState extends State<DiaryEdit> {
                           //       snackPosition: SnackPosition.BOTTOM);
                           //   return;
                           // }
-                          await controller.createTodayDiary(<String, dynamic>{
+                          await controller.updateDiary(<String, dynamic>{
                             'contents': contentsController.text.isEmpty
                                 ? data['contents']
                                 : contentsController.text,
                             'author': userController.user['user']['profile']
                                 ['userId'],
-                            'image': _image ?? data['image'],
+                            'image': _image ?? File(data['image']),
                             'feeling': _feeling ?? data['feeling'],
                             'listId': data['listId'],
                             'createdAt': data['createdAt']
-                          }).then((_) {
+                          }, data['diaryId']).then((_) {
                             //back()으로 전페이지, filter 다시 함수 실행
                             Get.find<ReadDiarysController>()
                                 .getDiarys(data['listId']);

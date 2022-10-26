@@ -36,6 +36,7 @@ class _DiaryNewState extends State<DiaryNew> {
     });
   }
 
+  final contentsController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     // print(Get.arguments);
@@ -43,9 +44,8 @@ class _DiaryNewState extends State<DiaryNew> {
     DateTime? date = Get.arguments[1];
     String? dateTime =
         "${date?.year.toString()}-${date?.month.toString().padLeft(2, '0')}-${date?.day.toString().padLeft(2, '0')}";
-    final controller = Get.put(CreateController(listId: diaryListId!));
+    final controller = Get.put(CreateController());
     final userController = Get.put(UserController());
-    final contentsController = TextEditingController();
 
     // print(_image!.path);
     return Scaffold(
@@ -172,7 +172,7 @@ class _DiaryNewState extends State<DiaryNew> {
                                 snackPosition: SnackPosition.BOTTOM);
                             return;
                           }
-                          await controller.createTodayDiary(<String, dynamic>{
+                          await controller.createDiary(<String, dynamic>{
                             'contents': contentsController.text,
                             'author': userController.user['user']['profile']
                                 ['userId'],

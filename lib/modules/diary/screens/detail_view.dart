@@ -18,8 +18,8 @@ class _DetailViewState extends State<DetailView> {
   @override
   Widget build(BuildContext context) {
     final diaryId = Get.arguments[0];
-    final listId = Get.arguments[1];
     final controller = Get.put(ViewController(id: diaryId));
+    final listId = Get.arguments[1];
     String endPoint = 'http://127.0.0.1:8090/api/files/ejd8zuc5jpk31lx';
     final diary = controller.diary;
     // print(diaryId);
