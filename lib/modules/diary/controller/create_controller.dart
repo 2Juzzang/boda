@@ -12,6 +12,7 @@ class CreateController extends GetxController {
   final client = PocketBase('http://127.0.0.1:8090');
 
   Future<bool> createDiary(Map<String, dynamic> diary) async {
+    print(diary);
     if (diary['image'] == null) {
       _isLoading(true);
       await client.records.create('diary', body: diary);
@@ -26,12 +27,18 @@ class CreateController extends GetxController {
   }
 
   Future<bool> updateDiary(Map<String, dynamic> diary, diaryId) async {
+    _isLoading(true);
     print(diary);
-    print(diaryId);
+    print(diary['image']);
 
-    await client.records.update('diary', diaryId,
-        body: diary,
-        files: [await http.MultipartFile.fromPath('image', diary['image'])]);
+    if (diary['image'] == null || diary['image'] == '') {
+      await client.records.update('diary', diaryId, body: diary);
+    } else {
+      await client.records.update('diary', diaryId,
+          body: diary,
+          files: [await http.MultipartFile.fromPath('image', diary['image'])]);
+    }
+    _isLoading(false);
     return true;
   }
 }

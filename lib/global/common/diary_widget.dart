@@ -34,6 +34,7 @@ class _DiaryWidgetState extends State<DiaryWidget> {
   Widget build(BuildContext context) {
     final listTitleController = TextEditingController(text: widget.title);
     final listId = widget.id;
+
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 16.0),
       child: Stack(
@@ -89,10 +90,38 @@ class _DiaryWidgetState extends State<DiaryWidget> {
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
-                                Text(
-                                  '마지막 일기 : 3일 전',
-                                  style: TextStyle(color: Colors.grey),
-                                ),
+                                FutureBuilder(
+                                    future:
+                                        diaryListController.latestDiary(listId),
+                                    builder: (context, snapshot) {
+                                      if (snapshot.connectionState ==
+                                          ConnectionState.done) {
+                                        // var res = snapshot.data
+                                        return snapshot.data == null
+                                            ? Text(
+                                                '최근 작성 일기 : 없음',
+                                                style: TextStyle(
+                                                    color: Colors.grey),
+                                              )
+                                            : Text(
+                                                '최근 작성 일기 : ${snapshot.data}',
+                                                style: TextStyle(
+                                                    color: Colors.grey),
+                                              );
+                                      }
+                                      return CircularProgressIndicator();
+                                    }),
+                                // Obx(() {
+                                //   return diaryListController.isLoading
+                                //       ? CircularProgressIndicator()
+                                //       : Container(
+                                //           child: Text(
+                                //             '마지막 일기 : ${diaryListController.latest.value}',
+                                //             style:
+                                //                 TextStyle(color: Colors.grey),
+                                //           ),
+                                //         );
+                                // }),
                               ],
                       ),
                       editMode
@@ -156,13 +185,28 @@ class _DiaryWidgetState extends State<DiaryWidget> {
                       //circleAvatar 추가하기
                       editMode
                           ? SizedBox.shrink()
-                          : Image.asset(
-                              'assets/images/boda.png',
-                              width: 96,
-                            ),
+                          : diaryListController.isLoading
+                              ? CircularProgressIndicator()
+                              : FutureBuilder(
+                                  future:
+                                      diaryListController.feeling(widget.id),
+                                  builder: (context, snapshot) {
+                                    if (snapshot.connectionState ==
+                                        ConnectionState.done) {
+                                      // var res = snapshot.data
+                                      return snapshot.data == null
+                                          ? Image.asset(
+                                              'assets/images/boda.png',
+                                              width: 80,
+                                            )
+                                          : Image.asset(
+                                              'assets/images/${snapshot.data}.png',
+                                              width: 96,
+                                            );
+                                    }
+                                    return CircularProgressIndicator();
+                                  }),
                     ],
-                    //   );
-                    // }
                   )),
             ),
           ),

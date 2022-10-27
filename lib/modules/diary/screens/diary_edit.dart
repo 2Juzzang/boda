@@ -1,6 +1,7 @@
 import 'package:diary/global/controller/read_diarys.dart';
 import 'package:diary/modules/diary/controller/create_controller.dart';
 import 'package:diary/modules/diary/controller/view_controller.dart';
+import 'package:diary/modules/diary/screens/detail_view.dart';
 import 'package:diary/modules/user/controller/user_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -52,9 +53,7 @@ class _DiaryEditState extends State<DiaryEdit> {
     final controller = Get.put(CreateController());
     final userController = Get.put(UserController());
     // contentsController.text = data['contents'];
-
-    print(data['diaryId']);
-    print(_image);
+    print('$_image 이미지');
     return Scaffold(
       body: GestureDetector(
         onTap: () {
@@ -112,12 +111,29 @@ class _DiaryEditState extends State<DiaryEdit> {
                                         fit: BoxFit.cover,
                                       ),
                                     )
-                                  : AspectRatio(
-                                      aspectRatio: 4 / 3,
-                                      child: Image.network(
-                                        '$endPoint/${data['diaryId']}/${data['image']}',
-                                        fit: BoxFit.cover,
-                                      ))),
+                                  : data['image'] != ''
+                                      ? AspectRatio(
+                                          aspectRatio: 4 / 3,
+                                          child: Image.network(
+                                            '$endPoint/${data['diaryId']}/${data['image']}',
+                                            fit: BoxFit.cover,
+                                          ))
+                                      : Container(
+                                          padding: EdgeInsets.symmetric(
+                                              vertical: 24),
+                                          child: Column(
+                                            children: const [
+                                              Icon(Icons.add_circle,
+                                                  color: Color(0xffd3d3d3),
+                                                  size: 32),
+                                              SizedBox(height: 8),
+                                              Text('이미지를 업로드해주세요',
+                                                  style: TextStyle(
+                                                      color:
+                                                          Color(0xff808080))),
+                                            ],
+                                          ),
+                                        )),
                         ),
                         GestureDetector(
                           onTap: () {
@@ -159,34 +175,30 @@ class _DiaryEditState extends State<DiaryEdit> {
                     child: ElevatedButton(
                         onPressed: () async {
                           if (contentsController.text.isEmpty) {
+                            print(userController.user['user']['profile']
+                                ['userId']);
                             Get.snackbar('', '내용을 입력해주세요',
                                 titleText: Container(),
                                 snackPosition: SnackPosition.BOTTOM);
                             return;
                           }
-                          // 수정은 피룡없
-                          // if (_feeling == null) {
-                          //   Get.snackbar('', '오늘의 감정을 선택해주세요',
-                          //       titleText: Container(),
-                          //       snackPosition: SnackPosition.BOTTOM);
-                          //   return;
-                          // }
+
                           await controller.updateDiary(<String, dynamic>{
-                            'contents': contentsController.text.isEmpty
-                                ? data['contents']
-                                : contentsController.text,
+                            'contents': contentsController.text,
                             'author': userController.user['user']['profile']
                                 ['userId'],
-                            'image': _image ?? File(data['image']),
+                            'image': _image != null ? null : data['image'],
                             'feeling': _feeling ?? data['feeling'],
                             'listId': data['listId'],
                             'createdAt': data['createdAt']
                           }, data['diaryId']).then((_) {
                             //back()으로 전페이지, filter 다시 함수 실행
-                            Get.find<ReadDiarysController>()
-                                .getDiarys(data['listId']);
-                            Get.back();
+                            Get.find<ViewController>()
+                                .getDetailView(data['diaryId']);
                           });
+                          viewController.editMode(false);
+                          // .then((_) => Get.to(() => DetailView(),
+                          //     arguments: [data['diaryId'], data['listId']]))
                         },
                         style: ButtonStyle(
                           backgroundColor:

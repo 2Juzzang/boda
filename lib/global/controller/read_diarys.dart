@@ -18,6 +18,7 @@ class ReadDiarysController extends GetxController {
     var res = diarys.where((e) => e['listId'] == listId);
     // print(res);
     diarys(res.map((e) => e).toList());
+    // print(diarys);
     _isLoading(false);
   }
 
@@ -29,4 +30,18 @@ class ReadDiarysController extends GetxController {
     _isLoading(false);
     Get.find<ReadListController>().readList();
   }
+
+  // feeling(listId) async {
+  //   // _isLoading(true);
+  //   var res = await api.test(listId);
+  //   // print(res);
+
+  //   // _isLoading(false);
+  // }
+
+  // @override
+  // void onInit() {
+  //   ever(diarys, ((_) => feeling(_)));
+  //   super.onInit();
+  // }
 }

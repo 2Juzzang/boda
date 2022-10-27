@@ -7,7 +7,7 @@ class ListController extends GetxController {
   RxBool editMode = false.obs;
   RxBool visible = false.obs;
 
-  listCreate(data, id) async {
+  listCreate(data, userId) async {
     await api.listCreate(data);
 
     await Get.find<ReadListController>().readList();

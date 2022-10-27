@@ -92,4 +92,14 @@ class Api {
     await client.records.delete('diary', diaryId);
     return;
   }
+
+  Future test(listId) async {
+    var res = await client.records.getList('diary', filter: 'listId="$listId"');
+    return res.items.map((e) => e.toJson()['feeling']).toList();
+  }
+
+  Future latestDiary(listId) async {
+    var res = await client.records.getList('diary', filter: 'listId="$listId"');
+    return res.items.map((e) => e.toJson()['createdAt']).toList();
+  }
 }

@@ -196,6 +196,19 @@ class _DiaryNewState extends State<DiaryNew> {
                               ? CircularProgressIndicator()
                               : Text('작성하기');
                         })),
+                  ),
+                  Container(
+                    padding: EdgeInsets.symmetric(horizontal: 16),
+                    width: double.infinity,
+                    child: ElevatedButton(
+                        onPressed: (() {
+                          Get.back();
+                        }),
+                        style: ButtonStyle(
+                          backgroundColor:
+                              MaterialStatePropertyAll(Color(0xFFCC0000)),
+                        ),
+                        child: Text('취소하기')),
                   )
                 ],
               ),
