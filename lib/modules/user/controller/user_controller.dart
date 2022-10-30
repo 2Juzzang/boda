@@ -30,8 +30,8 @@ class UserController extends GetxController {
     Get.offAll(() => Home());
   }
 
-  logout() {
-    api.logout();
+  logout() async {
+    await api.logout();
     Get.offAll(() => Login());
   }
 }

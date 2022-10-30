@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:diary/global/controller/read_diarys.dart';
 import 'package:pocketbase/pocketbase.dart';
 import 'package:get/get.dart';
@@ -12,7 +14,7 @@ class CreateController extends GetxController {
   final client = PocketBase('http://127.0.0.1:8090');
 
   Future<bool> createDiary(Map<String, dynamic> diary) async {
-    print(diary);
+    print(diary['image']);
     if (diary['image'] == null) {
       _isLoading(true);
       await client.records.create('diary', body: diary);
@@ -26,17 +28,16 @@ class CreateController extends GetxController {
     return true;
   }
 
-  Future<bool> updateDiary(Map<String, dynamic> diary, diaryId) async {
+  Future<bool> updateDiary(
+      Map<String, dynamic> diary, String? imgPath, diaryId) async {
     _isLoading(true);
-    print(diary);
-    print(diary['image']);
 
-    if (diary['image'] == null || diary['image'] == '') {
+    if (diary['image'] == null || diary['image'] == '' || imgPath == null) {
       await client.records.update('diary', diaryId, body: diary);
     } else {
       await client.records.update('diary', diaryId,
           body: diary,
-          files: [await http.MultipartFile.fromPath('image', diary['image'])]);
+          files: [await http.MultipartFile.fromPath('image', imgPath)]);
     }
     _isLoading(false);
     return true;

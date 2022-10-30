@@ -107,7 +107,7 @@ class _DiaryNewState extends State<DiaryNew> {
                                         Icon(Icons.add_circle,
                                             color: Color(0xffd3d3d3), size: 32),
                                         SizedBox(height: 8),
-                                        Text('이미지를 업로드해주세요',
+                                        Text('이미지 업로드',
                                             style: TextStyle(
                                                 color: Color(0xff808080))),
                                       ],

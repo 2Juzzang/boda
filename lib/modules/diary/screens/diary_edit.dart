@@ -53,7 +53,7 @@ class _DiaryEditState extends State<DiaryEdit> {
     final controller = Get.put(CreateController());
     final userController = Get.put(UserController());
     // contentsController.text = data['contents'];
-    print('$_image 이미지');
+    print('$_image 이미지 ${data['image']}');
     return Scaffold(
       body: GestureDetector(
         onTap: () {
@@ -187,11 +187,12 @@ class _DiaryEditState extends State<DiaryEdit> {
                             'contents': contentsController.text,
                             'author': userController.user['user']['profile']
                                 ['userId'],
-                            'image': _image != null ? null : data['image'],
+                            'image':
+                                _image != null ? _image!.path : data['image'],
                             'feeling': _feeling ?? data['feeling'],
                             'listId': data['listId'],
                             'createdAt': data['createdAt']
-                          }, data['diaryId']).then((_) {
+                          }, _image?.path, data['diaryId']).then((_) {
                             //back()으로 전페이지, filter 다시 함수 실행
                             Get.find<ViewController>()
                                 .getDetailView(data['diaryId']);

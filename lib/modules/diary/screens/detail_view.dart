@@ -46,46 +46,48 @@ class _DetailViewState extends State<DetailView> {
                   )
                 : Container(
                     padding: EdgeInsets.all(16.0),
-                    child: Column(
-                      children: [
-                        diary['image'] != ''
-                            ? Image.network(
-                                '$endPoint/$diaryId/${diary['image']}')
-                            : Container(),
-                        Image.asset('assets/images/${diary['feeling']}.png'),
-                        Text(diary['contents']),
-                        Text(diary['createdAt']),
-                        GestureDetector(
-                            onTap: () {
-                              controller.editMode.value = true;
-                              // listController.listDelete(widget.id);
-                            },
-                            child: Icon(Icons.edit)),
-                        GestureDetector(
-                            onTap: () {
-                              Get.dialog(AlertDialog(
-                                content: (Text('일기장은 복구되지 않습니다.\n삭제하시겠습니까?')),
-                                contentPadding: EdgeInsets.all(24),
-                                actions: [
-                                  TextButton(
-                                      onPressed: (() async {
-                                        await controller.deleteDiary(
-                                            diaryId, listId);
-                                        Get.back();
-                                      }),
-                                      child: Text(
-                                        '예',
-                                        style: TextStyle(color: Colors.red),
-                                      )),
-                                  TextButton(
-                                      onPressed: (() => Get.back()),
-                                      child: Text('아니오'))
-                                ],
-                              ));
-                              // listController.listDelete(widget.id);
-                            },
-                            child: Icon(Icons.delete)),
-                      ],
+                    child: SingleChildScrollView(
+                      child: Column(
+                        children: [
+                          diary['image'] != ''
+                              ? Image.network(
+                                  '$endPoint/$diaryId/${diary['image']}')
+                              : Container(),
+                          Image.asset('assets/images/${diary['feeling']}.png'),
+                          Text(diary['contents']),
+                          Text(diary['createdAt']),
+                          GestureDetector(
+                              onTap: () {
+                                controller.editMode.value = true;
+                                // listController.listDelete(widget.id);
+                              },
+                              child: Icon(Icons.edit)),
+                          GestureDetector(
+                              onTap: () {
+                                Get.dialog(AlertDialog(
+                                  content: (Text('일기장은 복구되지 않습니다.\n삭제하시겠습니까?')),
+                                  contentPadding: EdgeInsets.all(24),
+                                  actions: [
+                                    TextButton(
+                                        onPressed: (() async {
+                                          await controller.deleteDiary(
+                                              diaryId, listId);
+                                          Get.back();
+                                        }),
+                                        child: Text(
+                                          '예',
+                                          style: TextStyle(color: Colors.red),
+                                        )),
+                                    TextButton(
+                                        onPressed: (() => Get.back()),
+                                        child: Text('아니오'))
+                                  ],
+                                ));
+                                // listController.listDelete(widget.id);
+                              },
+                              child: Icon(Icons.delete)),
+                        ],
+                      ),
                     ),
                   );
       }),

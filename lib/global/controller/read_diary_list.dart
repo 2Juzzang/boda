@@ -41,21 +41,28 @@ class ReadListController extends GetxController {
     }
   }
 
-  feeling(listId) async {
+  mostFeeling(listId) async {
     // _isLoading(true);
-    var res = await api.test(listId);
-    var mostFeeling = '';
-    var count = <String, num>{};
-
-    for (var feeling in res) {
-      count[feeling] = 1 + (count[feeling] ?? 0);
-    }
-    //
-    var result = count.values.toList();
+    var res = await api.mostFeeling(listId);
 
     if (res.isEmpty) {
       return;
     } else {
+      var test = <String, num>{};
+      for (var feeling in res) {
+        test[feeling] = 1 + (test[feeling] ?? 0);
+        // print(feeling);
+      }
+      // print(res);
+
+      var mostFeeling = '';
+      var count = <String, num>{};
+
+      for (var feeling in res) {
+        count[feeling] = 1 + (count[feeling] ?? 0);
+      }
+      //
+      var result = count.values.toList();
       var most = result.reduce((value, element) {
         return value > element ? value : element;
       });
@@ -74,8 +81,6 @@ class ReadListController extends GetxController {
     _isLoading(false);
     var res = await api.latestDiary(listId);
 
-    // date.sort();
-    // print(date.runtimeType);
     if (res.isEmpty) {
       return;
     } else {

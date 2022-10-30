@@ -1,4 +1,3 @@
-import 'package:diary/global/api/api.dart';
 import 'package:diary/global/controller/read_diary_list.dart';
 import 'package:diary/global/controller/read_diarys.dart';
 import 'package:diary/modules/home/controller/list_controller.dart';
@@ -188,8 +187,8 @@ class _DiaryWidgetState extends State<DiaryWidget> {
                           : diaryListController.isLoading
                               ? CircularProgressIndicator()
                               : FutureBuilder(
-                                  future:
-                                      diaryListController.feeling(widget.id),
+                                  future: diaryListController
+                                      .mostFeeling(widget.id),
                                   builder: (context, snapshot) {
                                     if (snapshot.connectionState ==
                                         ConnectionState.done) {

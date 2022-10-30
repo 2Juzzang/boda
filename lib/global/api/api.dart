@@ -93,7 +93,7 @@ class Api {
     return;
   }
 
-  Future test(listId) async {
+  Future mostFeeling(listId) async {
     var res = await client.records.getList('diary', filter: 'listId="$listId"');
     return res.items.map((e) => e.toJson()['feeling']).toList();
   }
