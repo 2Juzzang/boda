@@ -78,13 +78,8 @@ class Api {
 
   Future<void> deleteAllDiarys(listId) async {
     var diarys = await getDiarys(listId);
-    var res = diarys
-        .map((e) => e.toJson())
-        .where((e) => e['listId'] == listId)
-        .toList();
-
-    for (int i = 0; i < res.length; i++) {
-      await client.records.delete('diary', res[i]['id']);
+    for (int i = 0; i < diarys.length; i++) {
+      await client.records.delete('diary', diarys[i]['id']);
     }
     return;
   }
