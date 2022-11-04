@@ -25,6 +25,7 @@ class _DiaryDetailState extends State<DiaryDetail> {
 
   @override
   Widget build(BuildContext context) {
+    print(listId);
     // print(controller.diarys);
     return Scaffold(
       appBar: DefaultAppbar(),

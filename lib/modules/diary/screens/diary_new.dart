@@ -112,12 +112,9 @@ class _DiaryNewState extends State<DiaryNew> {
                                                 color: Color(0xff808080))),
                                       ],
                                     )
-                                  : AspectRatio(
-                                      aspectRatio: 4 / 3,
-                                      child: Image.file(
-                                        File(_image!.path),
-                                        fit: BoxFit.cover,
-                                      ),
+                                  : Image.file(
+                                      File(_image!.path),
+                                      fit: BoxFit.cover,
                                     )),
                         ),
                         GestureDetector(

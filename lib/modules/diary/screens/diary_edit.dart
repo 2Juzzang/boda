@@ -104,20 +104,15 @@ class _DiaryEditState extends State<DiaryEdit> {
                               ),
                               margin: EdgeInsets.only(bottom: 8),
                               child: _image != null
-                                  ? AspectRatio(
-                                      aspectRatio: 4 / 3,
-                                      child: Image.file(
-                                        File(_image!.path),
-                                        fit: BoxFit.cover,
-                                      ),
+                                  ? Image.file(
+                                      File(_image!.path),
+                                      fit: BoxFit.cover,
                                     )
                                   : data['image'] != ''
-                                      ? AspectRatio(
-                                          aspectRatio: 4 / 3,
-                                          child: Image.network(
-                                            '$endPoint/${data['diaryId']}/${data['image']}',
-                                            fit: BoxFit.cover,
-                                          ))
+                                      ? Image.network(
+                                          '$endPoint/${data['diaryId']}/${data['image']}',
+                                          fit: BoxFit.cover,
+                                        )
                                       : Container(
                                           padding: EdgeInsets.symmetric(
                                               vertical: 24),
@@ -343,6 +338,5 @@ class _DiaryEditState extends State<DiaryEdit> {
         ),
       ),
     );
-    ;
   }
 }

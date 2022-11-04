@@ -45,7 +45,13 @@ class _DetailViewState extends State<DetailView> {
                     },
                   )
                 : Container(
+                    height: double.infinity,
+                    decoration: BoxDecoration(
+                      color: Color(0xffececec),
+                      borderRadius: BorderRadius.circular(15),
+                    ),
                     padding: EdgeInsets.all(16.0),
+                    margin: EdgeInsets.all(16.0),
                     child: SingleChildScrollView(
                       child: Column(
                         children: [
@@ -53,39 +59,67 @@ class _DetailViewState extends State<DetailView> {
                               ? Image.network(
                                   '$endPoint/$diaryId/${diary['image']}')
                               : Container(),
-                          Image.asset('assets/images/${diary['feeling']}.png'),
-                          Text(diary['contents']),
-                          Text(diary['createdAt']),
-                          GestureDetector(
-                              onTap: () {
-                                controller.editMode.value = true;
-                                // listController.listDelete(widget.id);
-                              },
-                              child: Icon(Icons.edit)),
-                          GestureDetector(
-                              onTap: () {
-                                Get.dialog(AlertDialog(
-                                  content: (Text('일기장은 복구되지 않습니다.\n삭제하시겠습니까?')),
-                                  contentPadding: EdgeInsets.all(24),
-                                  actions: [
-                                    TextButton(
-                                        onPressed: (() async {
-                                          await controller.deleteDiary(
-                                              diaryId, listId);
-                                          Get.back();
-                                        }),
-                                        child: Text(
-                                          '예',
-                                          style: TextStyle(color: Colors.red),
-                                        )),
-                                    TextButton(
-                                        onPressed: (() => Get.back()),
-                                        child: Text('아니오'))
-                                  ],
-                                ));
-                                // listController.listDelete(widget.id);
-                              },
-                              child: Icon(Icons.delete)),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 16),
+                            child: Image.asset(
+                                'assets/images/${diary['feeling']}.png'),
+                          ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                              Text(
+                                diary['createdAt'],
+                                style: TextStyle(color: Colors.grey),
+                              ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  GestureDetector(
+                                      onTap: () {
+                                        controller.editMode.value = true;
+                                        // listController.listDelete(widget.id);
+                                      },
+                                      child: Icon(
+                                        Icons.edit,
+                                        color: Colors.grey,
+                                      )),
+                                  SizedBox(
+                                    width: 8,
+                                  ),
+                                  GestureDetector(
+                                      onTap: () {
+                                        Get.dialog(AlertDialog(
+                                          content: (Text(
+                                              '일기장은 복구되지 않습니다.\n삭제하시겠습니까?')),
+                                          contentPadding: EdgeInsets.all(24),
+                                          actions: [
+                                            TextButton(
+                                                onPressed: (() async {
+                                                  await controller.deleteDiary(
+                                                      diaryId, listId);
+                                                  Get.back();
+                                                }),
+                                                child: Text(
+                                                  '예',
+                                                  style: TextStyle(
+                                                      color: Colors.red),
+                                                )),
+                                            TextButton(
+                                                onPressed: (() => Get.back()),
+                                                child: Text('아니오'))
+                                          ],
+                                        ));
+                                        // listController.listDelete(widget.id);
+                                      },
+                                      child: Icon(Icons.delete,
+                                          color: Colors.grey)),
+                                ],
+                              ),
+                            ],
+                          ),
+                          Container(
+                              alignment: Alignment.topLeft,
+                              child: Text(diary['contents'])),
                         ],
                       ),
                     ),
