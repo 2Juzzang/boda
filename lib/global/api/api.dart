@@ -54,9 +54,10 @@ class Api {
   }
 
   //Diary
-  Future<List> getDiarys() async {
-    var list = await client.records.getList('diary');
-    return list.items;
+  Future<List> getDiarys(listId) async {
+    var list =
+        await client.records.getList('diary', filter: 'listId="$listId"');
+    return list.items.map((e) => e.toJson()).toList();
   }
 
   Future<Map<String, dynamic>> getTodayDiary(String id) async {
@@ -76,7 +77,7 @@ class Api {
   }
 
   Future<void> deleteAllDiarys(listId) async {
-    var diarys = await getDiarys();
+    var diarys = await getDiarys(listId);
     var res = diarys
         .map((e) => e.toJson())
         .where((e) => e['listId'] == listId)
@@ -93,13 +94,15 @@ class Api {
     return;
   }
 
-  Future mostFeeling(listId) async {
-    var res = await client.records.getList('diary', filter: 'listId="$listId"');
+  Future mostFeeling(listId, userId) async {
+    var res = await client.records
+        .getList('diary', filter: 'listId="$listId" && author="$userId"');
     return res.items.map((e) => e.toJson()['feeling']).toList();
   }
 
-  Future latestDiary(listId) async {
-    var res = await client.records.getList('diary', filter: 'listId="$listId"');
+  Future latestDiary(listId, userId) async {
+    var res = await client.records
+        .getList('diary', filter: 'listId="$listId" && author="$userId"');
     return res.items.map((e) => e.toJson()['createdAt']).toList();
   }
 }

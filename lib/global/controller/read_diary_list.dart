@@ -12,7 +12,7 @@ class ReadListController extends GetxController {
   Api api = Api();
   final client = PocketBase('http://127.0.0.1:8090');
   final RxList diaryList = [].obs;
-  final RxBool _isLoading = false.obs;
+  RxBool _isLoading = false.obs;
   final RxBool _edit = false.obs;
   // final RxList mostFeelingList = [].obs;
   final RxString latest = ''.obs;
@@ -41,9 +41,9 @@ class ReadListController extends GetxController {
     }
   }
 
-  mostFeeling(listId) async {
+  mostFeeling(listId, userId) async {
     // _isLoading(true);
-    var res = await api.mostFeeling(listId);
+    var res = await api.mostFeeling(listId, userId);
 
     if (res.isEmpty) {
       return;
@@ -77,9 +77,9 @@ class ReadListController extends GetxController {
     }
   }
 
-  latestDiary(listId) async {
+  latestDiary(listId, userId) async {
     _isLoading(false);
-    var res = await api.latestDiary(listId);
+    var res = await api.latestDiary(listId, userId);
 
     if (res.isEmpty) {
       return;

@@ -168,21 +168,22 @@ class _DiaryNewState extends State<DiaryNew> {
                                 titleText: Container(),
                                 snackPosition: SnackPosition.BOTTOM);
                             return;
+                          } else {
+                            await controller.createDiary(<String, dynamic>{
+                              'contents': contentsController.text,
+                              'author': userController.user['user']['profile']
+                                  ['userId'],
+                              'image': _image == null ? null : _image!.path,
+                              'feeling': _feeling,
+                              'listId': diaryListId.toString(),
+                              'createdAt': dateTime
+                            }).then((_) {
+                              //back()으로 전페이지, filter 다시 함수 실행
+                              Get.find<ReadDiarysController>()
+                                  .getDiarys(diaryListId);
+                              Get.back();
+                            });
                           }
-                          await controller.createDiary(<String, dynamic>{
-                            'contents': contentsController.text,
-                            'author': userController.user['user']['profile']
-                                ['userId'],
-                            'image': _image == null ? null : _image!.path,
-                            'feeling': _feeling,
-                            'listId': diaryListId.toString(),
-                            'createdAt': dateTime
-                          }).then((_) {
-                            //back()으로 전페이지, filter 다시 함수 실행
-                            Get.find<ReadDiarysController>()
-                                .getDiarys(diaryListId);
-                            Get.back();
-                          });
                         },
                         style: ButtonStyle(
                           backgroundColor:

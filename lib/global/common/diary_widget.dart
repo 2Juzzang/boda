@@ -34,7 +34,8 @@ class _DiaryWidgetState extends State<DiaryWidget> {
     final listTitleController = TextEditingController(text: widget.title);
 
     final listId = widget.id;
-
+    print(userController.user['user']['id']);
+    final userId = userController.user['user']['id'];
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 16.0),
       child: Stack(
@@ -113,8 +114,8 @@ class _DiaryWidgetState extends State<DiaryWidget> {
                                   ],
                                 ),
                                 FutureBuilder(
-                                    future:
-                                        diaryListController.latestDiary(listId),
+                                    future: diaryListController.latestDiary(
+                                        listId, userId),
                                     builder: (context, snapshot) {
                                       if (snapshot.connectionState ==
                                           ConnectionState.done) {
@@ -184,8 +185,8 @@ class _DiaryWidgetState extends State<DiaryWidget> {
                           : diaryListController.isLoading
                               ? CircularProgressIndicator()
                               : FutureBuilder(
-                                  future: diaryListController
-                                      .mostFeeling(widget.id),
+                                  future: diaryListController.mostFeeling(
+                                      widget.id, userId),
                                   builder: (context, snapshot) {
                                     if (snapshot.connectionState ==
                                         ConnectionState.done) {
