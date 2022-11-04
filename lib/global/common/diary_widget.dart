@@ -32,6 +32,7 @@ class _DiaryWidgetState extends State<DiaryWidget> {
   @override
   Widget build(BuildContext context) {
     final listTitleController = TextEditingController(text: widget.title);
+
     final listId = widget.id;
 
     return Padding(
@@ -71,23 +72,45 @@ class _DiaryWidgetState extends State<DiaryWidget> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: editMode
                             ? [
-                                SizedBox(
-                                  width: 180,
-                                  child: TextFormField(
-                                    controller: listTitleController,
-                                    decoration: InputDecoration(
-                                        hintText: '일기장 제목을 입력해주세요.',
-                                        hintStyle: TextStyle(fontSize: 14)),
-                                  ),
+                                Column(
+                                  children: [
+                                    SizedBox(
+                                      width: 180,
+                                      child: TextFormField(
+                                        controller: listTitleController,
+                                        decoration: InputDecoration(
+                                            hintText: '일기장 제목을 입력해주세요.',
+                                            hintStyle: TextStyle(fontSize: 14)),
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ]
                             : [
-                                Text(
-                                  widget.title,
-                                  style: TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.bold,
-                                  ),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceAround,
+                                  children: [
+                                    Text(
+                                      widget.title,
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    Container(
+                                      padding: EdgeInsets.fromLTRB(8, 0, 0, 2),
+                                      child: GestureDetector(
+                                          onTap: () {
+                                            _editMode();
+                                          },
+                                          child: Icon(
+                                            Icons.edit,
+                                            size: 16,
+                                            color: Colors.grey.shade400,
+                                          )),
+                                    ),
+                                  ],
                                 ),
                                 FutureBuilder(
                                     future:
@@ -110,22 +133,23 @@ class _DiaryWidgetState extends State<DiaryWidget> {
                                       }
                                       return CircularProgressIndicator();
                                     }),
-                                // Obx(() {
-                                //   return diaryListController.isLoading
-                                //       ? CircularProgressIndicator()
-                                //       : Container(
-                                //           child: Text(
-                                //             '마지막 일기 : ${diaryListController.latest.value}',
-                                //             style:
-                                //                 TextStyle(color: Colors.grey),
-                                //           ),
-                                //         );
-                                // }),
                               ],
                       ),
                       editMode
                           ? ElevatedButton(
                               onPressed: ((() async {
+                                if (listTitleController.text.isEmpty) {
+                                  Get.snackbar('', '제목을 입력해주세요',
+                                      titleText: Container(),
+                                      snackPosition: SnackPosition.BOTTOM);
+                                  return;
+                                }
+                                if (listTitleController.text.length > 14) {
+                                  Get.snackbar('', '제목은 최대 14자까지 입력할 수 있습니다.',
+                                      titleText: Container(),
+                                      snackPosition: SnackPosition.BOTTOM);
+                                  return;
+                                }
                                 await listController.listUpdate({
                                   'author': userController.user['user']
                                       ['profile']['id'],
@@ -140,11 +164,7 @@ class _DiaryWidgetState extends State<DiaryWidget> {
                               child: Text(
                                 '확인',
                               ))
-                          : GestureDetector(
-                              onTap: () {
-                                _editMode();
-                              },
-                              child: Icon(Icons.edit)),
+                          : SizedBox.shrink(),
                       editMode
                           ? ElevatedButton(
                               onPressed: ((() {
@@ -158,30 +178,7 @@ class _DiaryWidgetState extends State<DiaryWidget> {
                               child: Text(
                                 '취소',
                               ))
-                          : GestureDetector(
-                              onTap: () {
-                                Get.dialog(AlertDialog(
-                                  content: (Text('일기장은 복구되지 않습니다.\n삭제하시겠습니까?')),
-                                  contentPadding: EdgeInsets.all(24),
-                                  actions: [
-                                    TextButton(
-                                        onPressed: (() async {
-                                          Get.back();
-                                          await controller
-                                              .deleteAllDiarys(listId);
-                                        }),
-                                        child: Text(
-                                          '예',
-                                          style: TextStyle(color: Colors.red),
-                                        )),
-                                    TextButton(
-                                        onPressed: (() => Get.back()),
-                                        child: Text('아니오'))
-                                  ],
-                                ));
-                              },
-                              child: Icon(Icons.delete)),
-                      //circleAvatar 추가하기
+                          : SizedBox.shrink(),
                       editMode
                           ? SizedBox.shrink()
                           : diaryListController.isLoading
@@ -198,15 +195,49 @@ class _DiaryWidgetState extends State<DiaryWidget> {
                                               'assets/images/boda.png',
                                               width: 80,
                                             )
-                                          : Image.asset(
-                                              'assets/images/${snapshot.data}.png',
-                                              width: 96,
+                                          : CircleAvatar(
+                                              radius: 44,
+                                              backgroundColor:
+                                                  Colors.grey.shade200,
+                                              child: Image.asset(
+                                                'assets/images/${snapshot.data}.png',
+                                                width: 96,
+                                              ),
                                             );
                                     }
                                     return CircularProgressIndicator();
                                   }),
                     ],
                   )),
+            ),
+          ),
+          GestureDetector(
+            onTap: () {
+              Get.dialog(AlertDialog(
+                content: (Text('일기장은 복구되지 않습니다.\n삭제하시겠습니까?')),
+                contentPadding: EdgeInsets.all(24),
+                actions: [
+                  TextButton(
+                      onPressed: (() async {
+                        Get.back();
+                        await controller.deleteAllDiarys(listId);
+                      }),
+                      child: Text(
+                        '예',
+                        style: TextStyle(color: Colors.red),
+                      )),
+                  TextButton(onPressed: (() => Get.back()), child: Text('아니오'))
+                ],
+              ));
+            },
+            child: Container(
+              padding: EdgeInsets.fromLTRB(0, 8, 24, 0),
+              alignment: Alignment.topRight,
+              child: Icon(
+                Icons.highlight_off_rounded,
+                size: 18,
+                color: Colors.grey.shade400,
+              ),
             ),
           ),
           SizedBox(

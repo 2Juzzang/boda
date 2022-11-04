@@ -163,7 +163,7 @@ class _DiaryDetailState extends State<DiaryDetail> {
                       Container(
                         width: 32,
                         decoration: BoxDecoration(
-                          color: Colors.amber.shade700,
+                          color: Color(0xFF00CCCC),
                         ),
                         child: Text(
                           day.day.toString(),
